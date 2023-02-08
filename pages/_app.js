@@ -1,10 +1,13 @@
 import { AuthProvider } from "@/lib/firebase/auth";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const App = ({ Component, pageProps }) => {
   return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
+    <ChakraProvider>
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+    </ChakraProvider>
   );
 };
 
