@@ -1,7 +1,6 @@
 import Head from "next/head";
 
 import { useAuth } from "@/lib/firebase/auth";
-import { Button, Code, Heading } from "@chakra-ui/react";
 
 export default function Home() {
   const auth = useAuth();
@@ -9,23 +8,23 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Get Feedback App</title>
+        <title>Get Feedback</title>
       </Head>
       <main>
-        <Heading fontWeight="semibold">Get Feedback</Heading>
+        <h1>Get Feedback</h1>
         {!auth?.user ? (
-          <Button onClick={() => auth.signinWithGithub()}>Sign In</Button>
+          <button onClick={() => auth.signinWithGithub()}>Sign In</button>
         ) : (
-          <Button onClick={() => auth.signout()}>Sign Out</Button>
+          <button onClick={() => auth.signout()}>Sign Out</button>
         )}
         <div>
-          <Code marginTop={5} fontSize={18}>
+          <code>
             user: &#123; <br />
             name: {auth?.user?.name + ","} <br />
             email: {auth?.user?.email + ","}
             <br />
             &#125;
-          </Code>
+          </code>
         </div>
       </main>
     </>
