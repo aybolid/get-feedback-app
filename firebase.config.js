@@ -1,6 +1,6 @@
-import * as firebase from "firebase/app";
-import "firebase/auth";
-console.log(process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+
 if (!firebase.apps.length) {
   firebase.initializeApp({
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

@@ -1,5 +1,9 @@
-import '@/styles/globals.css'
+import { ProvideAuth } from "@/lib/firebase/auth";
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
+export default function MyApp({ Component, pageProps }) {
+  return (
+    <ProvideAuth>
+      <Component {...pageProps} />
+    </ProvideAuth>
+  );
 }
