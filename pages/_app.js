@@ -1,9 +1,11 @@
-import { ProvideAuth } from "@/lib/firebase/auth";
+import { AuthProvider } from "@/lib/firebase/auth";
 
-export default function MyApp({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
   return (
-    <ProvideAuth>
+    <AuthProvider>
       <Component {...pageProps} />
-    </ProvideAuth>
+    </AuthProvider>
   );
-}
+};
+
+export default App;
