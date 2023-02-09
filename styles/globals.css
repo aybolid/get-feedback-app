@@ -1,4 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-    
+
+@layer components {
+  .btn {
+    @apply flex gap-2 justify-center items-center active:scale-95 text-neutral-50 px-3 py-1 capitalize font-bold rounded-xl duration-150 ease-in-out;
+  }
+  .primary {
+    @apply dark:bg-sky-600 bg-sky-500 hover:bg-sky-400 dark:hover:bg-sky-500;
+  }
+  .submit {
+    @apply bg-emerald-500 dark:bg-emerald-600 dark:hover:bg-emerald-500 hover:bg-emerald-400;
+  }
+  .danger {
+    @apply dark:bg-red-600 bg-red-500 dark:hover:bg-red-500 hover:bg-red-400;
+  }
+  /* .link {
+    @apply ;
+  } */
+  .div-block {
+    @apply bg-white dark:bg-neutral-800 rounded-lg;
+  }
+  .w-line {
+    @apply bg-neutral-300 w-full h-px;
+  }
+  .h-line {
+    @apply bg-neutral-300 w-px h-full;
+  }
+}
+
+@layer base {
+  .main-bg {
+    @apply text-neutral-200 dark:bg-neutral-700 bg-sky-500;
+  }
+}
