@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/lib/firebase/auth";
 
 import { SiGithub } from "react-icons/si";
+import Link from "next/link";
 
 const Home = () => {
   const auth = useAuth();
@@ -29,9 +30,14 @@ const Home = () => {
                   Sign In With Github <SiGithub title="Github" size={"24px"} />
                 </button>
               ) : (
-                <button className="btn danger" onClick={() => auth.signout()}>
-                  Sign Out
-                </button>
+                <div className="flex flex-col justify-center items-center gap-8">
+                  <Link href="/dashboard" className="btn primary">
+                    View Dashboard
+                  </Link>
+                  <button className="btn danger" onClick={() => auth.signout()}>
+                    Sign Out
+                  </button>
+                </div>
               )}
             </div>
           </div>

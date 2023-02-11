@@ -1,20 +1,27 @@
 import React, { useEffect, useRef } from "react";
 
+import { useAuth } from "@/lib/firebase/auth";
 import { useForm } from "react-hook-form";
-import { createSite } from "@/lib/firebase/firestore";
+import { createSite } from "@/lib/firebase/db";
 
 import { motion } from "framer-motion";
 import { MdOutlineClose } from "react-icons/md";
 
 const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
+  const auth = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handlAddSite = (data) => {
-    createSite(data)
+  const handlAddSite = ({ siteName, siteURL }) => {
+    createSite({
+      authorId: auth.user.uid,
+      createdAt: new Date().toISOString(),
+      siteName,
+      siteURL,
+    })
       .then(() => setDisplayModal(false))
       .then(() => notifySuccess())
       .catch(() => notifyError());
@@ -45,12 +52,12 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
       >
         <div className="flex gap-48 justify-between items-center text-neutral-800 dark:text-neutral-50">
           <h4 className="text-2xl font-semibold">Add Website</h4>
-          <div
+          <button
             onClick={() => setDisplayModal(false)}
             className="text-neutral-700 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-50 cursor-pointer duration-200 ease-in-out"
           >
             <MdOutlineClose size={34} />
-          </div>
+          </button>
         </div>
         <div className="w-line mt-2" />
         <form onSubmit={handleSubmit(handlAddSite)} className="pt-4 w-full">
@@ -106,9 +113,7 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
             >
               Cancel
             </button>
-            <button type="submit" className="btn submit">
-              Add
-            </button>
+            <input value="Add" type="submit" className="btn submit" />
           </div>
         </form>
       </motion.div>
