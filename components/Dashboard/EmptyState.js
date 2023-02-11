@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import AddSiteModal from "./AddSiteModal";
+import AddSiteModal from "../Modals/AddSiteModal";
 
 const EmptyState = () => {
   const [displayModal, setDisplayModal] = useState(false);
 
   const notifySuccess = () =>
-    toast.success("Site was added!", {
+    toast.success("Site was added! 👌", {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -20,7 +20,7 @@ const EmptyState = () => {
       theme: "colored",
     });
   const notifyError = () =>
-    toast.error("Unexpected error...", {
+    toast.error("Unexpected error... 🙅‍♂️", {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,

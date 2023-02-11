@@ -44,13 +44,19 @@ const DashboardShell = ({ children }) => {
             rel="noreferrer"
             target="_blank"
           >
-            {auth?.user ? auth?.user?.name : "User Name"}
+            {auth?.user ? auth?.user?.name : "Account"}
           </a>
           <div className="rounded-full flex justify-center items-center overflow-hidden w-12 h-12 bg-sky-500 dark:bg-neutral-600 text-neutral-50">
-            {auth?.user ? (
-              <Image alt="User Photo" />
+            {auth?.user?.photoURL ? (
+              <Image
+                width={48}
+                height={48}
+                src={auth.user.photoURL}
+                alt="User Photo"
+                unoptimized
+              />
             ) : (
-              <MdOutlineAccountCircle title="User Icon" size={50} />
+              <MdOutlineAccountCircle title="User Icon" size={48} />
             )}
           </div>
         </div>
