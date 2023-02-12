@@ -1,5 +1,6 @@
 import { useAuth } from "@/lib/firebase/auth";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 import { MdOutlineAccountCircle } from "react-icons/md";
@@ -16,36 +17,26 @@ const DashboardShell = ({ children }) => {
         <div className="h-line" />
         <ul className="flex gap-x-5 justify-center items-center h-full mx-20 px-4 text-2xl font-semibold">
           <li>
-            <a
+            <Link
               className="hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out"
-              href="https://google.com"
-              rel="noreferrer"
-              target="_blank"
+              href="dashboard"
             >
               Sites
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className="hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out"
-              href="https://google.com"
-              rel="noreferrer"
-              target="_blank"
+              href="#"
             >
               Feedback
-            </a>
+            </Link>
           </li>
         </ul>
         <div className="flex-grow gap-4 flex justify-end items-center h-full">
-          <div className="h-line" />
-          <a
-            className="text-xl"
-            href="https://google.com"
-            rel="noreferrer"
-            target="_blank"
-          >
-            {auth?.user ? auth?.user?.name : "Account"}
-          </a>
+          <button onClick={() => auth?.signout()} className="btn danger">
+            Log Out
+          </button>
           <div className="rounded-full flex justify-center items-center overflow-hidden w-12 h-12 bg-sky-500 dark:bg-neutral-600 text-neutral-50">
             {auth?.user?.photoURL ? (
               <Image

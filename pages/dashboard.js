@@ -1,16 +1,13 @@
 import Head from "next/head";
 import DashboardShell from "@/components/Dashboard/DashboardShell";
-import EmptyState from "@/components/Dashboard/EmptyState";
-import { motion } from "framer-motion";
+import SitesEmptyState from "@/components/Dashboard/SitesEmptyState";
 import { GridLoader } from "react-spinners";
 import SitesTable from "@/components/Dashboard/SitesTable";
 
-import { useAuth } from "@/lib/firebase/auth";
 import useSWR from "swr";
-import fetcher from "@/utils/fetcher";
+import fetcher from "@/helpers/fetcher";
 
 const Dashboard = () => {
-  // const auth = useAuth();
   const { data } = useSWR("/api/sites", fetcher);
 
   if (!data)
@@ -28,15 +25,15 @@ const Dashboard = () => {
       <Head>
         <title>GF Dashboard</title>
       </Head>
-      <motion.div
-        animate={{ opacity: 1 }}
-        initial={{ opacity: 0 }}
-        className="w-full h-screen p-4"
-      >
+      <div className="w-full h-screen p-4">
         <DashboardShell>
-          {data.length === 0 ? <EmptyState /> : <SitesTable sites={data} />}
+          {data.length === 0 ? (
+            <SitesEmptyState />
+          ) : (
+            <SitesTable sites={data} />
+          )}
         </DashboardShell>
-      </motion.div>
+      </div>
     </>
   );
 };

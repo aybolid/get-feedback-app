@@ -1,15 +1,7 @@
-import db from "../../firebase-admin.config";
+import { getAllSites } from "@/lib/firebase/db-admin";
 
 const handleSitesApi = async (_, res) => {
-  const snapshot = await db.collection("sites").get();
-  const sites = [];
-
-  snapshot.forEach((doc) => {
-    sites.push({ id: doc.id, ...doc.data() });
-    console.log(doc.id, "=>", doc.data());
-  });
-
-  res.status(200).json(sites);
+  res.status(200).json(await getAllSites()); // api sites response
 };
 
 export default handleSitesApi;
