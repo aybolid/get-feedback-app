@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React, { useState } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -5,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import AddSiteModal from "../Modals/AddSiteModal";
 
-const EmptyState = () => {
+const SitesEmptyState = () => {
   const [displayModal, setDisplayModal] = useState(false);
 
   const notifySuccess = () =>
@@ -33,7 +34,11 @@ const EmptyState = () => {
 
   return (
     <>
-      <div className="flex-grow bg-white dark:bg-neutral-800 w-5/6 rounded-lg flex flex-col justify-center">
+      <motion.div
+        animate={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, x: 1000 }}
+        className="flex-grow bg-white dark:bg-neutral-800 w-5/6 rounded-lg flex flex-col justify-center"
+      >
         <div className="p-6 flex items-center justify-start gap-x-10">
           <h3 className="font-bold text-3xl dark:text-neutral-50 text-neutral-800">
             My Sites <span>\</span>
@@ -55,7 +60,7 @@ const EmptyState = () => {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
       {/* AddSiteModal */}
       {displayModal && (
         <AddSiteModal
@@ -81,4 +86,4 @@ const EmptyState = () => {
   );
 };
 
-export default EmptyState;
+export default SitesEmptyState;

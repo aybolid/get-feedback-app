@@ -6,6 +6,7 @@ import { createSite } from "@/lib/firebase/db";
 
 import { motion } from "framer-motion";
 import { MdOutlineClose } from "react-icons/md";
+import { mutate } from "swr";
 
 const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
   const auth = useAuth();
@@ -16,12 +17,14 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
   } = useForm();
 
   const handlAddSite = ({ siteName, siteURL }) => {
-    createSite({
+    const newSite = {
       authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
       siteName,
       siteURL,
-    })
+    };
+    createSite(newSite)
+      .then(() => mutate("/api/sites", false))
       .then(() => setDisplayModal(false))
       .then(() => notifySuccess())
       .catch(() => notifyError());
@@ -51,7 +54,7 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
         className="shadow-lg dark:shadow-black flex justify-center items-center flex-col absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 p-4 rounded-xl dark:bg-neutral-800 bg-white opacity-100"
       >
         <div className="flex gap-48 justify-between items-center text-neutral-800 dark:text-neutral-50">
-          <h4 className="text-2xl font-semibold">Add Website</h4>
+          <h4 className="text-2xl font-bold">Add Website</h4>
           <button
             onClick={() => setDisplayModal(false)}
             className="text-neutral-700 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-50 cursor-pointer duration-200 ease-in-out"
@@ -59,21 +62,20 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
             <MdOutlineClose size={34} />
           </button>
         </div>
-        <div className="w-line mt-2" />
         <form onSubmit={handleSubmit(handlAddSite)} className="pt-4 w-full">
           <div className="flex flex-col mb-4">
-            <label htmlFor="siteNameInput" className="font-semibold text-lg">
+            <label htmlFor="siteNameInput" className="font-semibold text-md">
               Site Name
             </label>
             <input
-              {...register("siteName", { required: true })}
+              {...register("siteName", { required: true, maxLength: 25 })}
               id="siteNameInput"
               autoComplete="off"
               className="bg-sky-100 dark:bg-neutral-600 rounded-md h-8 px-2 text-lg"
               placeholder="My Site"
               type="text"
             />
-            {errors.siteName && (
+            {errors.siteName && errors.siteName.type === "required" && (
               <motion.span
                 animate={{ height: "auto", width: "auto", opacity: 1 }}
                 initial={{ height: 0, width: 0, opacity: 0 }}
@@ -82,18 +84,31 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
                 This field is required
               </motion.span>
             )}
+            {errors.siteName && errors.siteName.type === "maxLength" && (
+              <motion.span
+                animate={{ height: "auto", width: "auto", opacity: 1 }}
+                initial={{ height: 0, width: 0, opacity: 0 }}
+                className="text-red-500 font-mono mt-1 w-full text-end"
+              >
+                Max length is 25 digits
+              </motion.span>
+            )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="siteURLInput" className="font-semibold text-lg">
+            <label htmlFor="siteURLInput" className="font-semibold text-md">
               Site URL
             </label>
             <input
-              {...register("siteURL", { required: true })}
+              {...register("siteURL", {
+                required: true,
+                pattern:
+                  "[Hh][Tt][Tt][Pp][Ss]?://(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::d{2,5})?(?:/[^s]*)?",
+              })}
+              type="url"
               id="siteURLInput"
               autoComplete="off"
               className="bg-sky-100 dark:bg-neutral-600 rounded-md h-8 px-2 text-lg"
               placeholder="https://website.com"
-              type="text"
             />
             {errors.siteURL && (
               <motion.span
@@ -105,15 +120,18 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
               </motion.span>
             )}
           </div>
-          <div className="w-line mt-8" />
-          <div className="flex justify-between items-center w-full mt-2">
+          <div className="flex justify-between items-center w-full mt-8">
             <button
               onClick={() => setDisplayModal(false)}
               className="btn danger"
             >
               Cancel
             </button>
-            <input value="Add" type="submit" className="btn submit" />
+            <input
+              value="Add"
+              type="submit"
+              className="btn submit cursor-pointer"
+            />
           </div>
         </form>
       </motion.div>
