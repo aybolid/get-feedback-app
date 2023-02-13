@@ -31,7 +31,7 @@ const Home = () => {
                 </button>
               ) : (
                 <div className="flex flex-col justify-center items-center gap-8">
-                  <Link href="/dashboard" className="btn primary">
+                  <Link href="/dashboard/sites" className="btn primary">
                     View Dashboard
                   </Link>
                   <button className="btn danger" onClick={() => auth.signout()}>
