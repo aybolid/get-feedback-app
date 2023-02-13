@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 
-import AddSiteModal from "../Modals/AddSiteModal";
+import AddSiteModal from "../../Modals/AddSiteModal";
 import { useAuth } from "@/lib/firebase/auth";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ const SitesTable = ({ sites }) => {
 
   const notifySuccess = () =>
     toast.success("Site was added! 👌", {
-      position: "top-center",
+      position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -27,7 +27,7 @@ const SitesTable = ({ sites }) => {
     });
   const notifyError = () =>
     toast.error("Unexpected error... 🙅‍♂️", {
-      position: "top-center",
+      position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -74,7 +74,7 @@ const SitesTable = ({ sites }) => {
                 size={18}
               />
             </div>
-            <div className="basis-3/6 px-1">Feedback Link</div>
+            <div className="basis-3/6 px-1">Feedback Links</div>
             <div className="basis-2/6 px-1">Date Added</div>
           </div>
           <ul className="w-full">
@@ -96,16 +96,21 @@ const SitesTable = ({ sites }) => {
                     {site.siteURL}
                   </a>
                 </div>
-                <div className="basis-3/6 px-1">
+                <div className="basis-3/6 px-1 flex justify-start items-center gap-4">
                   <Link
-                    href={`/p/${site.id}`}
-                    target="_blank"
-                    className="flex justify-start items-center max-w-max hover:text-white text-sky-50 font-bold dark:bg-sky-500 dark:hover:bg-sky-400 bg-sky-400 hover:bg-sky-300 rounded-xl px-6 py-1 dark:hover:text-neutral-50 duration-150 ease-in-out"
+                    href={`/dashboard/raw-feedback/${site.id}`}
+                    className="btn primary"
                   >
-                    View Feedback
+                    Raw
+                  </Link>
+                  <Link
+                    href={`/dashboard/raw-feedback/${site.id}`}
+                    className="btn submit"
+                  >
+                    Approved
                   </Link>
                 </div>
-                <div className="basis-2/6 px-1 text-lg font-light">
+                <div className="basis-2/6 px-1 text-md font-light">
                   <p>{format(parseISO(site.createdAt), "PPpp")}</p>
                 </div>
               </li>
