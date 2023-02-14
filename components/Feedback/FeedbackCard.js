@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { format, parseISO } from "date-fns";
+import { MdDelete } from "react-icons/md";
 
-const FeedbackCard = ({ feedback, handleFeedbackApprove }) => {
+const FeedbackCard = ({
+  feedback,
+  handleFeedbackApprove,
+  handleDeleteFeedback,
+}) => {
+  const [displayDeleteHint, setDisplayDeleteHint] = useState(false);
+
   return (
     <div className="bg-neutral-700 flex flex-col justify-center items-start px-4 py-2 rounded-md h-80">
       <div className="flex justify-start items-center gap-4">
@@ -19,12 +26,25 @@ const FeedbackCard = ({ feedback, handleFeedbackApprove }) => {
           <p>Rating: {feedback.rating}</p>
           <p>Status: {feedback.status}</p>
         </div>
-        <button
-          onClick={() => handleFeedbackApprove(feedback)}
-          className="btn primary"
-        >
-          Approve
-        </button>
+        <div className="flex justify-center items-center gap-4">
+          <button
+            onDoubleClick={() => handleDeleteFeedback(feedback.id)}
+            onMouseEnter={() => setDisplayDeleteHint(true)}
+            onMouseLeave={() => setDisplayDeleteHint(false)}
+            className="relative opacity-40 active:scale-95 hover:opacity-100 hover:text-red-500 ease-in-out duration-100"
+          >
+            <MdDelete size={20} />
+            {displayDeleteHint ? (
+              <p className="rounded-sm text-red-500 absolute top-0 -left-14 text-sm w-14">2x click</p>
+            ) : null}
+          </button>
+          <button
+            onClick={() => handleFeedbackApprove(feedback)}
+            className="btn primary"
+          >
+            Approve
+          </button>
+        </div>
       </div>
     </div>
   );
