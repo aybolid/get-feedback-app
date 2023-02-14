@@ -11,6 +11,7 @@ export async function getStaticProps() {
     props: {
       rawFeedback: [],
     },
+     revalidate: 10,
   };
 }
 
