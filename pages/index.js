@@ -30,13 +30,13 @@ const Home = () => {
                   Sign In With Github <SiGithub title="Github" size={"24px"} />
                 </button>
               ) : (
-                <div className="flex flex-col justify-center items-center gap-8">
-                  <Link href="/dashboard/sites" className="btn primary">
-                    View Dashboard
-                  </Link>
+                <div className="flex flex-row justify-center items-center gap-8">
                   <button className="btn danger" onClick={() => auth.signout()}>
                     Sign Out
                   </button>
+                  <Link href="/dashboard/sites" className="btn primary">
+                    View Dashboard
+                  </Link>
                 </div>
               )}
             </div>
