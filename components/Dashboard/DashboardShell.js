@@ -27,7 +27,7 @@ const DashboardShell = ({ children }) => {
           <li>
             <Link
               className="hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out"
-              href="#"
+              href="/dashboard/sites"
             >
               Feedback
             </Link>
