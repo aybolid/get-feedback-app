@@ -46,7 +46,7 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
 
   return (
     <>
-      <div className="bg-black w-screen h-full absolute top-0 left-0 opacity-30" />
+      <div className="bg-black w-screen h-[2000px] absolute top-0 left-0 opacity-30" />
       <motion.div
         ref={modalRef}
         animate={{ top: "50%", opacity: 1 }}
@@ -57,7 +57,7 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
           <h4 className="text-2xl font-bold">Add Website</h4>
           <button
             onClick={() => setDisplayModal(false)}
-            className="text-neutral-700 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-50 cursor-pointer duration-200 ease-in-out"
+            className="text-neutral-400 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-50 cursor-pointer duration-200 ease-in-out"
           >
             <MdOutlineClose size={34} />
           </button>
