@@ -7,7 +7,7 @@ import {
 } from "@/lib/firebase/db";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GridLoader } from "react-spinners";
 import { toast, ToastContainer } from "react-toastify";
 import useSWR, { mutate } from "swr";
@@ -17,6 +17,10 @@ import AddSiteModal from "../Modals/AddSiteModal";
 
 const RawFeedbackTable = ({ rawFeedback }) => {
   const [displayModal, setDisplayModal] = useState(false);
+  useEffect(() => {
+    document.body.style.overflow = displayModal ? "hidden" : "";
+  }, [displayModal]);
+  
   const [comment, setComment] = useState("");
 
   const auth = useAuth();
