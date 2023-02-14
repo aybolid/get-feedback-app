@@ -34,9 +34,15 @@ const DashboardShell = ({ children }) => {
           </li>
         </ul>
         <div className="flex-grow gap-4 flex justify-end items-center h-full">
-          <button onClick={() => auth?.signout()} className="btn danger">
-            Log Out
-          </button>
+          {auth?.user ? (
+            <button onClick={() => auth?.signout()} className="btn danger">
+              Log Out
+            </button>
+          ) : (
+            <Link href="/" className="btn submit">
+              Log In
+            </Link>
+          )}
           <div className="rounded-full flex justify-center items-center overflow-hidden w-12 h-12 bg-sky-500 dark:bg-neutral-600 text-neutral-50">
             {auth?.user?.photoURL ? (
               <Image
