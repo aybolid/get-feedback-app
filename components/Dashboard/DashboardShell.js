@@ -1,11 +1,17 @@
 import { useAuth } from "@/lib/firebase/auth";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { MdOutlineAccountCircle } from "react-icons/md";
+import {
+  MdOutlineAccountCircle,
+  MdOutlineDarkMode,
+  MdOutlineLightMode,
+} from "react-icons/md";
 
 const DashboardShell = ({ children }) => {
+  const { theme, setTheme } = useTheme();
   const auth = useAuth();
 
   return (
@@ -34,6 +40,21 @@ const DashboardShell = ({ children }) => {
           </li>
         </ul>
         <div className="flex-grow gap-4 flex justify-end items-center h-full">
+          {theme === "light" ? (
+            <button
+              onClick={() => setTheme("dark")}
+              className="opacity-40 active:scale-95 hover:opacity-100 ease-in-out duration-100"
+            >
+              <MdOutlineDarkMode size={28} />
+            </button>
+          ) : (
+            <button
+              onClick={() => setTheme("light")}
+              className="opacity-40 active:scale-95 hover:opacity-100 ease-in-out duration-100"
+            >
+              <MdOutlineLightMode size={28} />
+            </button>
+          )}
           {auth?.user ? (
             <button onClick={() => auth?.signout()} className="btn danger">
               Log Out
