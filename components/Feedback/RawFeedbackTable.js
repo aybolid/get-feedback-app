@@ -137,12 +137,14 @@ const RawFeedbackTable = ({ rawFeedback }) => {
               </p>
             </div>
           ) : !rawFeedback ? (
-            <GridLoader
-              className="absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2"
-              color="#ffffff"
-              loading={true}
-              size={30}
-            />
+            <div className="relative flex-grow w-full min-h-[50px]">
+              <GridLoader
+                className="absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2"
+                color="#ffffff"
+                loading={true}
+                size={30}
+              />
+            </div>
           ) : (
             <div className="grid flex-grow w-full grid-cols-[repeat(auto-fit,minmax(min-content,32%))] grid-rows-none gap-4 justify-center items-start p-4">
               {rawFeedback?.map((feedback) => (
