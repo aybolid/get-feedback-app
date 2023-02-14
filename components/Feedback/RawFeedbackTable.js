@@ -13,8 +13,10 @@ import { toast, ToastContainer } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import FeedbackCard from "./FeedbackCard";
 import "react-toastify/dist/ReactToastify.css";
+import AddSiteModal from "../Modals/AddSiteModal";
 
 const RawFeedbackTable = ({ rawFeedback }) => {
+  const [displayModal, setDisplayModal] = useState(false);
   const [comment, setComment] = useState("");
 
   const auth = useAuth();
@@ -122,7 +124,7 @@ const RawFeedbackTable = ({ rawFeedback }) => {
         <div className="flex-grow dark:bg-neutral-600 bg-sky-100 flex flex-col justify-start items-center rounded-b-lg p-4">
           <form
             onSubmit={handleCommentAdd}
-            className="flex-row gap-4 w-full px-4 bg-neutral-700 p-4 rounded-xl mb-4 flex justify-center items-center"
+            className="flex-row gap-4 w-full px-4 bg-white dark:bg-neutral-700 p-4 rounded-xl mb-4 flex justify-center items-center"
           >
             <label className="text-lg font-semibold">Comment:</label>
             <input
@@ -130,7 +132,7 @@ const RawFeedbackTable = ({ rawFeedback }) => {
               onChange={(e) => setComment(e.target.value)}
               type="text"
               placeholder="Your Feedback..."
-              className="rounded-md bg-neutral-200 text-neutral-900 w-2/3 px-2 h-10"
+              className="rounded-md bg-sky-100 dark:bg-neutral-200 text-neutral-900 w-2/3 px-2 h-10"
             />
             <button type="submit" className="btn submit">
               + Add Comment
@@ -152,19 +154,29 @@ const RawFeedbackTable = ({ rawFeedback }) => {
               />
             </div>
           ) : (
-            <div className="grid flex-grow w-full grid-cols-[repeat(auto-fit,minmax(min-content,32%))] grid-rows-none gap-4 justify-center items-start p-4">
-              {rawFeedback?.map((feedback) => (
-                <FeedbackCard
-                  key={feedback.id}
-                  handleFeedbackApprove={handleFeedbackApprove}
-                  handleDeleteFeedback={handleDeleteFeedback}
-                  feedback={feedback}
-                />
-              ))}
+            <div className="flex">
+              <div className="grid flex-grow w-full grid-cols-[repeat(auto-fit,minmax(min-content,32%))] grid-rows-none gap-4 justify-center items-start p-4">
+                {rawFeedback?.map((feedback) => (
+                  <FeedbackCard
+                    key={feedback.id}
+                    handleFeedbackApprove={handleFeedbackApprove}
+                    handleDeleteFeedback={handleDeleteFeedback}
+                    feedback={feedback}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>
       </motion.div>
+      {/* AddSiteModal */}
+      {displayModal && (
+        <AddSiteModal
+          notifyError={notifyError}
+          notifySuccess={notifySuccess}
+          setDisplayModal={setDisplayModal}
+        />
+      )}
       {/* Toast */}
       <ToastContainer
         position="bottom-right"
