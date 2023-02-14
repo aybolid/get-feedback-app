@@ -3,7 +3,7 @@ import { useAuth } from "@/lib/firebase/auth";
 import {
   createApprovedFeedback,
   createFeedback,
-  deleteFeedback,
+  deleteDoc,
 } from "@/lib/firebase/db";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -39,7 +39,7 @@ const RawFeedbackTable = ({ rawFeedback }) => {
       text: feedback.text,
     };
     createApprovedFeedback(approvedFeedback)
-      .then(() => deleteFeedback(feedback.id))
+      .then(() => deleteDoc("rawFeedback", feedback.id))
       .then(() => mutate(`/api/feedback/raw/${router.query.siteId}`, false))
       .then(() => notifySuccess("Feedback was approved! 👌"))
       .catch(() => notifyError());
@@ -64,6 +64,12 @@ const RawFeedbackTable = ({ rawFeedback }) => {
       .catch(() => notifyError());
   };
 
+  // Delete Feedback
+  const handleDeleteFeedback = (id) => {
+    deleteDoc("rawFeedback", id).then(() =>
+      mutate(`/api/feedback/raw/${router.query.siteId}`, false)
+    );
+  };
   // Notifications
   const notifySuccess = (message) =>
     toast.success(message, {
@@ -151,6 +157,7 @@ const RawFeedbackTable = ({ rawFeedback }) => {
                 <FeedbackCard
                   key={feedback.id}
                   handleFeedbackApprove={handleFeedbackApprove}
+                  handleDeleteFeedback={handleDeleteFeedback}
                   feedback={feedback}
                 />
               ))}

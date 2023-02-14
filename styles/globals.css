@@ -4,7 +4,7 @@
 
 @layer components {
   .btn {
-    @apply flex gap-2 justify-center items-center active:scale-95 text-neutral-50 px-3 py-1 capitalize font-bold rounded-xl duration-150 ease-in-out;
+    @apply flex gap-2 justify-center items-center active:scale-95 text-neutral-50 px-3 py-1 capitalize font-bold rounded-md duration-150 ease-in-out;
   }
   .primary {
     @apply dark:bg-sky-600 bg-sky-500 hover:bg-sky-400 dark:hover:bg-sky-500;
@@ -15,9 +15,6 @@
   .danger {
     @apply dark:bg-red-600 bg-red-500 dark:hover:bg-red-500 hover:bg-red-400;
   }
-  /* .link {
-    @apply ;
-  } */
   .div-block {
     @apply bg-white dark:bg-neutral-800 rounded-lg;
   }
