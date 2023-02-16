@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,9 @@ import AddSiteModal from "../../Modals/AddSiteModal";
 
 const SitesEmptyState = () => {
   const [displayModal, setDisplayModal] = useState(false);
+  useEffect(() => {
+    document.body.style.overflow = displayModal ? "hidden" : "";
+  }, [displayModal]);
 
   const notifySuccess = () =>
     toast.success("Site was added! 👌", {
