@@ -3,6 +3,8 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import logoDark from "../../public/logo-dark.svg";
+import logoLight from "../../public/logo-light.svg";
 
 import {
   MdOutlineAccountCircle,
@@ -17,10 +19,9 @@ const DashboardShell = ({ children }) => {
   return (
     <div className="flex flex-col h-full">
       <nav className=" bg-white dark:bg-neutral-800 dark:text-neutral-200 text-neutral-700 rounded-xl h-20 w-full flex justify-start items-center px-8 py-4">
-        <h1 className="text-neutral-900 dark:text-neutral-50 flex tracking-tighter select-none justify-center items-center h-full px-4 font-bold text-4xl">
-          GF
-        </h1>
-        <div className="h-line" />
+        <div className="w-[45px]">
+          <Image alt="Logo" src={theme === 'light' ? logoLight : logoDark} />
+        </div>
         <ul className="flex gap-x-5 justify-center items-center h-full mx-20 px-4 text-2xl font-semibold">
           <li>
             <Link

@@ -1,9 +1,7 @@
 import React, { useEffect, useRef } from "react";
-
 import { useAuth } from "@/lib/firebase/auth";
 import { useForm } from "react-hook-form";
 import { createSite } from "@/lib/firebase/db";
-
 import { motion } from "framer-motion";
 import { MdOutlineClose } from "react-icons/md";
 import { mutate } from "swr";
