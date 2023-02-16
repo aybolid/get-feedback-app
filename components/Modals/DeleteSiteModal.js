@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-
 import { motion } from "framer-motion";
 import { MdOutlineClose } from "react-icons/md";
 
@@ -44,7 +43,7 @@ const DeleteSiteModal = ({
           </button>
         </div>
         <p className="text-center font-mono text-xl p-4 rounded-lg bg-sky-100 dark:bg-neutral-700">
-          It will delete <span className="text-red-500 font-bold">all</span>{" "}
+          This action will delete <span className="text-red-500 font-bold">all</span>{" "}
           {"site's"} feedback data and you{" "}
           <span className="text-red-500 font-bold">{"can't"} restore</span> it
           in the future!
