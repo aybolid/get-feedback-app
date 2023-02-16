@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { motion } from "framer-motion";
-
 import AddSiteModal from "../../Modals/AddSiteModal";
 import { useAuth } from "@/lib/firebase/auth";
 import SiteCard from "./SiteCard";
