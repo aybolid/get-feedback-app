@@ -158,7 +158,7 @@ const RawFeedbackTable = ({ rawFeedback }) => {
               />
             </div>
           ) : (
-            <div className="flex">
+            <div className="flex w-full">
               <div className="grid flex-grow w-full grid-cols-[repeat(auto-fit,minmax(min-content,32%))] grid-rows-none gap-4 justify-center items-start p-4">
                 {rawFeedback?.map((feedback) => (
                   <FeedbackCard
