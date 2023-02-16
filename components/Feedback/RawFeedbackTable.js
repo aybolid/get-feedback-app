@@ -1,4 +1,4 @@
-import fetcher from "@/helpers/fetcher";
+import { fetcher } from "@/helpers/fetchers";
 import { useAuth } from "@/lib/firebase/auth";
 import {
   createApprovedFeedback,
@@ -20,7 +20,7 @@ const RawFeedbackTable = ({ rawFeedback }) => {
   useEffect(() => {
     document.body.style.overflow = displayModal ? "hidden" : "";
   }, [displayModal]);
-  
+
   const [comment, setComment] = useState("");
 
   const auth = useAuth();

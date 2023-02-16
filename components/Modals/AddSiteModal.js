@@ -9,7 +9,7 @@ import { MdOutlineClose } from "react-icons/md";
 import { mutate } from "swr";
 
 const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
-  const auth = useAuth();
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
@@ -18,16 +18,19 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
 
   const handlAddSite = ({ siteName, siteURL }) => {
     const newSite = {
-      authorId: auth.user.uid,
+      authorId: user.uid,
       createdAt: new Date().toISOString(),
       siteName,
       siteURL,
     };
     createSite(newSite)
-      .then(() => mutate("/api/sites", false))
+      .then(() => mutate(["/api/sites", user.token], false))
       .then(() => setDisplayModal(false))
       .then(() => notifySuccess())
-      .catch(() => notifyError());
+      .catch((error) => {
+        console.log(error);
+        notifyError();
+      });
   };
 
   const modalRef = useRef(null);
