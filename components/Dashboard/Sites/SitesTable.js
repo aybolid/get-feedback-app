@@ -1,4 +1,3 @@
-import { format, parseISO } from "date-fns";
 import React, { useEffect, useState } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -8,7 +7,9 @@ import { motion } from "framer-motion";
 
 import AddSiteModal from "../../Modals/AddSiteModal";
 import { useAuth } from "@/lib/firebase/auth";
-import Link from "next/link";
+import SiteCard from "./SiteCard";
+import { deleteDoc } from "@/lib/firebase/db";
+import { mutate } from "swr";
 
 const SitesTable = ({ sites }) => {
   const [displayModal, setDisplayModal] = useState(false);
@@ -16,7 +17,13 @@ const SitesTable = ({ sites }) => {
     document.body.style.overflow = displayModal ? "hidden" : "";
   }, [displayModal]);
 
-  const auth = useAuth();
+  const { user } = useAuth();
+
+  const handleSiteDelete = (id) => {
+    deleteDoc("sites", id).then(() =>
+      mutate(["/api/sites", user.token], false)
+    );
+  };
 
   const notifySuccess = () =>
     toast.success("Site was added! 👌", {
@@ -53,8 +60,8 @@ const SitesTable = ({ sites }) => {
             My Sites <span>\</span>
           </h3>
           <p className="font-semibold text-lg">
-            {auth?.user?.name
-              ? `Welcome 👋 Good to see you again, ${auth.user.name}!`
+            {user?.name
+              ? `Welcome 👋 Good to see you again, ${user.name}!`
               : "Welcome 👋 Good to see you again!"}
           </p>
           <div className="flex flex-grow justify-end items-center">
@@ -71,7 +78,7 @@ const SitesTable = ({ sites }) => {
           <div className="bg-sky-50 dark:bg-neutral-700 dark:text-neutral-400 rounded-md h-8 w-full flex justify-center items-center px-2 uppercase font-mono text-neutral-500 font-bold mb-2">
             <div className="basis-2/4 px-1">Site Name</div>
             <div className="basis-3/4 px-1 flex justify-start items-center gap-2">
-              Site URL{" "}
+              Site URL
               <RiExternalLinkLine
                 title="External Link"
                 className="mb-[0.5px]"
@@ -83,41 +90,11 @@ const SitesTable = ({ sites }) => {
           </div>
           <ul className="w-full">
             {sites.map((site) => (
-              <li
+              <SiteCard
                 key={site.id}
-                className="bg-white dark:bg-neutral-800 w-full h-20 flex justify-center items-center rounded-lg p-2 mt-2"
-              >
-                <div className="basis-2/4 px-1 font-semibold text-lg">
-                  <p>{site.siteName}</p>
-                </div>
-                <div className="basis-3/4 px-1 text-lg">
-                  <a
-                    className="flex justify-start gap-3 max-w-min items-center hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out"
-                    href={site.siteURL}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {site.siteURL}
-                  </a>
-                </div>
-                <div className="basis-3/6 px-1 flex justify-start items-center gap-4">
-                  <Link
-                    href={`/dashboard/raw-feedback/${site.id}`}
-                    className="btn primary"
-                  >
-                    Raw
-                  </Link>
-                  <Link
-                    href={`/dashboard/raw-feedback/${site.id}`}
-                    className="btn submit"
-                  >
-                    Approved
-                  </Link>
-                </div>
-                <div className="basis-2/6 px-1 text-md font-light">
-                  <p>{format(parseISO(site.createdAt), "PPpp")}</p>
-                </div>
-              </li>
+                site={site}
+                handleSiteDelete={handleSiteDelete}
+              />
             ))}
           </ul>
         </div>

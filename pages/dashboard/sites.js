@@ -5,12 +5,17 @@ import { GridLoader } from "react-spinners";
 import SitesTable from "@/components/Dashboard/Sites/SitesTable";
 
 import useSWR from "swr";
-import fetcher from "@/helpers/fetcher";
+import { fetcherWithUser } from "@/helpers/fetchers";
+import { useAuth } from "@/lib/firebase/auth";
 
 const Sites = () => {
-  const { data } = useSWR("/api/sites", fetcher);
+  const { user } = useAuth();
+  const { data: sites } = useSWR(
+    user ? ["/api/sites", user.token] : null,
+    fetcherWithUser
+  );
 
-  if (!data)
+  if (!sites)
     return (
       <GridLoader
         className="absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2"
@@ -27,10 +32,10 @@ const Sites = () => {
       </Head>
       <div className="w-full h-screen p-4">
         <DashboardShell>
-          {data.length === 0 ? (
+          {sites.length === 0 ? (
             <SitesEmptyState />
           ) : (
-            <SitesTable sites={data} />
+            <SitesTable sites={sites} />
           )}
         </DashboardShell>
       </div>
