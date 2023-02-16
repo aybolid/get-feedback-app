@@ -8,22 +8,14 @@ import { motion } from "framer-motion";
 import AddSiteModal from "../../Modals/AddSiteModal";
 import { useAuth } from "@/lib/firebase/auth";
 import SiteCard from "./SiteCard";
-import { deleteDoc } from "@/lib/firebase/db";
-import { mutate } from "swr";
 
 const SitesTable = ({ sites }) => {
-  const [displayModal, setDisplayModal] = useState(false);
+  const [displayAddModal, SetDisplayAddModal] = useState(false);
   useEffect(() => {
-    document.body.style.overflow = displayModal ? "hidden" : "";
-  }, [displayModal]);
+    document.body.style.overflow = displayAddModal ? "hidden" : "";
+  }, [displayAddModal]);
 
   const { user } = useAuth();
-
-  const handleSiteDelete = (id) => {
-    deleteDoc("sites", id).then(() =>
-      mutate(["/api/sites", user.token], false)
-    );
-  };
 
   const notifySuccess = () =>
     toast.success("Site was added! 👌", {
@@ -67,7 +59,7 @@ const SitesTable = ({ sites }) => {
           <div className="flex flex-grow justify-end items-center">
             {" "}
             <button
-              onClick={() => setDisplayModal(!displayModal)}
+              onClick={() => SetDisplayAddModal(!displayAddModal)}
               className="btn submit"
             >
               + Add Site
@@ -90,21 +82,17 @@ const SitesTable = ({ sites }) => {
           </div>
           <ul className="w-full">
             {sites.map((site) => (
-              <SiteCard
-                key={site.id}
-                site={site}
-                handleSiteDelete={handleSiteDelete}
-              />
+              <SiteCard key={site.id} site={site} />
             ))}
           </ul>
         </div>
       </motion.div>
       {/* AddSiteModal */}
-      {displayModal && (
+      {displayAddModal && (
         <AddSiteModal
           notifyError={notifyError}
           notifySuccess={notifySuccess}
-          setDisplayModal={setDisplayModal}
+          setDisplayModal={SetDisplayAddModal}
         />
       )}
       {/* Toast */}
