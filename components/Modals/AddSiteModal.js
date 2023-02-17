@@ -52,7 +52,7 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
         ref={modalRef}
         animate={{ top: "50%", opacity: 1 }}
         initial={{ top: 0, opacity: 0 }}
-        className="shadow-2xl dark:shadow-neutral-900 flex justify-center items-center flex-col absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 p-4 rounded-xl dark:bg-neutral-800 bg-white opacity-100"
+        className="shadow-2xl z-50 dark:shadow-neutral-900 flex justify-center items-center flex-col absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 p-4 rounded-xl dark:bg-neutral-800 bg-white opacity-100"
       >
         <div className="flex gap-48 justify-between items-center text-neutral-800 dark:text-neutral-50">
           <h4 className="text-2xl font-bold">Add Website</h4>
