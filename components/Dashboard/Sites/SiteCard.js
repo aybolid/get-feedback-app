@@ -1,14 +1,17 @@
 import DeleteSiteModal from "@/components/Modals/DeleteSiteModal";
+import { fetcher } from "@/helpers/fetchers";
 import { useAuth } from "@/lib/firebase/auth";
 import { deleteDoc, deleteSiteFeedback } from "@/lib/firebase/db";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 
 const SiteCard = ({ site }) => {
   const { user } = useAuth();
+
+  const { data: feedback } = useSWR(`/api/feedback/raw/${site.id}`, fetcher);
 
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
   useEffect(() => {
@@ -46,9 +49,14 @@ const SiteCard = ({ site }) => {
         <div className="basis-3/6 px-1 flex justify-start items-center gap-4">
           <Link
             href={`/dashboard/raw-feedback/${site.id}`}
-            className="btn primary"
+            className="btn primary relative"
           >
             Raw
+            {feedback?.length > 0 && (
+              <div className="absolute text-sm bg-red-500 rounded-full h-[22px] w-[22px] flex justify-center items-center -top-2 -left-2">
+                {feedback.length <= 9 ? feedback.length : <span className="tracking-tighter mb-1">9+</span>}
+              </div>
+            )}
           </Link>
           <Link
             href={`/dashboard/raw-feedback/${site.id}`}

@@ -20,7 +20,7 @@ const DashboardShell = ({ children }) => {
     <div className="flex flex-col h-full">
       <nav className=" bg-white dark:bg-neutral-800 dark:text-neutral-200 text-neutral-700 rounded-xl h-20 w-full flex justify-start items-center px-8 py-4">
         <div className="w-[45px]">
-          <Image alt="Logo" src={theme === 'light' ? logoLight : logoDark} />
+          <Image alt="Logo" src={theme === "light" ? logoLight : logoDark} />
         </div>
         <ul className="flex gap-x-5 justify-center items-center h-full mx-20 px-4 text-2xl font-semibold">
           <li>
@@ -36,7 +36,7 @@ const DashboardShell = ({ children }) => {
               className="hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out"
               href="/dashboard/sites"
             >
-              Feedback
+              Use Feedback
             </Link>
           </li>
         </ul>

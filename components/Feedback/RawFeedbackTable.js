@@ -27,7 +27,7 @@ const RawFeedbackTable = ({ rawFeedback }) => {
   const router = useRouter();
 
   // Get Raw Feedback
-  let { data: feedback } = useSWR(
+  const { data: feedback } = useSWR(
     `/api/feedback/raw/${router.query.siteId}`,
     fetcher
   );
