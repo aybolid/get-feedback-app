@@ -17,18 +17,29 @@ const Sites = () => {
 
   if (!sites)
     return (
-      <GridLoader
-        className="absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2"
-        color="#ffffff"
-        loading={true}
-        size={30}
-      />
+      <>
+        <Head>
+          <title>GF Dashboard</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        <div className="w-full h-screen p-4">
+          <DashboardShell>
+            <GridLoader
+              className="absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2"
+              color="#ffffff"
+              loading={true}
+              size={30}
+            />
+          </DashboardShell>
+        </div>
+      </>
     );
 
   return (
     <>
       <Head>
         <title>GF Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="w-full h-screen p-4">
         <DashboardShell>

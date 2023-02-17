@@ -16,6 +16,14 @@ const Home = () => {
     <>
       <Head>
         <title>Get Feedback</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if (document.cookie && document.cookie.includes('get-feedback-auth')) {
+          window.location.href = "/dashboard/sites"
+        }`,
+          }}
+        />
       </Head>
       <div className="flex flex-col justify-center items-center w-full h-screen">
         <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>

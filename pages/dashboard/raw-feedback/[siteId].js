@@ -11,7 +11,7 @@ export async function getStaticProps() {
     props: {
       rawFeedback: [],
     },
-     revalidate: 10,
+    revalidate: 1,
   };
 }
 
@@ -34,6 +34,7 @@ const SiteFeedback = ({ rawFeedback }) => {
     <>
       <Head>
         <title>Raw Feedback</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="w-full h-screen p-4">
         <DashboardShell>
