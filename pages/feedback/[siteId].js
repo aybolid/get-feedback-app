@@ -68,7 +68,7 @@ const SiteRawFeedback = ({ feedback }) => {
         <title>GF Feedback</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className="w-full h-screen p-4">
+      <div className="w-full h-full p-4">
         <div className="bg-white rounded-lg w-4/6 p-4 mx-auto my-0 text-neutral-700">
           <form className="pb-4">
             <div className="flex flex-col justify-center items-start">
