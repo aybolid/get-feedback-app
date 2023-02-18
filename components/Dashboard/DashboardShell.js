@@ -11,8 +11,10 @@ import {
   MdOutlineDarkMode,
   MdOutlineLightMode,
 } from "react-icons/md";
+import { useRouter } from "next/router";
 
 const DashboardShell = ({ children }) => {
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
   const auth = useAuth();
 
@@ -25,7 +27,9 @@ const DashboardShell = ({ children }) => {
         <ul className="flex gap-x-5 justify-center items-center h-full mx-20 px-4 text-2xl font-semibold">
           <li>
             <Link
-              className="hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out"
+              className={`${
+                router.pathname === "/dashboard/sites" && "bg-neutral-700"
+              } hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out`}
               href="/dashboard/sites"
             >
               Sites

@@ -88,8 +88,8 @@ const RawFeedbackTable = ({ rawFeedback }) => {
           </h3>
           <p className="font-semibold text-lg">
             {auth?.user?.name
-              ? `Welcome 👋 Good to see you again, ${auth.user.name}!`
-              : "Welcome 👋 Good to see you again!"}
+              ? `Welcome 👋 Good to see you, ${auth.user.name}!`
+              : "Welcome 👋 Good to see you!"}
           </p>
           <div className="flex flex-grow justify-end items-center">
             <Link
@@ -117,8 +117,8 @@ const RawFeedbackTable = ({ rawFeedback }) => {
               />
             </div>
           ) : (
-            <div className="flex w-full">
-              <div className="grid flex-grow w-full grid-cols-[repeat(auto-fit,minmax(min-content,32%))] grid-rows-none gap-4 justify-center items-start p-4">
+            <div className="flex w-full justify-center items-center">
+              <div className="grid flex-grow w-full grid-cols-3 gap-4 justify-start items-start">
                 {rawFeedback?.map((feedback) => (
                   <FeedbackCard
                     key={feedback.id}
