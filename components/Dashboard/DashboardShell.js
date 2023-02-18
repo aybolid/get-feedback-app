@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 import logoDark from "../../public/logo-dark.svg";
 import logoLight from "../../public/logo-light.svg";
-
+import { motion } from "framer-motion";
 import {
   MdOutlineAccountCircle,
   MdOutlineDarkMode,
@@ -21,14 +21,18 @@ const DashboardShell = ({ children }) => {
   return (
     <div className="flex flex-col h-full">
       <nav className=" bg-white dark:bg-neutral-800 dark:text-neutral-200 text-neutral-700 rounded-xl h-20 w-full flex justify-start items-center px-8 py-4">
-        <div className="w-[45px]">
+        <motion.div
+          whileTap={{ rotate: 360, scale: 1.3 }}
+          className="w-[45px] cursor-pointer"
+        >
           <Image alt="Logo" src={theme === "light" ? logoLight : logoDark} />
-        </div>
+        </motion.div>
         <ul className="flex gap-x-5 justify-center items-center h-full mx-20 px-4 text-2xl font-semibold">
           <li>
             <Link
               className={`${
-                router.pathname === "/dashboard/sites" && "dark:bg-neutral-700 bg-sky-100"
+                router.pathname === "/dashboard/sites" &&
+                "dark:bg-neutral-700 bg-sky-100"
               } hover:text-neutral-900 hover:bg-sky-200 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out`}
               href="/dashboard/sites"
             >
