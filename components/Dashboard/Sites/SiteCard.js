@@ -72,7 +72,7 @@ const SiteCard = ({ site }) => {
             onClick={() => setDisplayDeleteModal(true)}
             className="relative opacity-40 active:scale-95 hover:opacity-100 hover:text-red-500 ease-in-out duration-100"
           >
-            <MdDelete size={20} />
+            <MdDelete title="Delete" size={20} />
           </button>
         </div>
       </li>
