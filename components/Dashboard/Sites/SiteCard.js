@@ -54,14 +54,15 @@ const SiteCard = ({ site }) => {
             Raw
             {feedback?.length > 0 && (
               <div className="absolute text-sm bg-red-500 rounded-full h-[22px] w-[22px] flex justify-center items-center -top-2 -left-2">
-                {feedback.length <= 9 ? feedback.length : <span className="tracking-tighter mb-1">9+</span>}
+                {feedback.length <= 9 ? (
+                  feedback.length
+                ) : (
+                  <span className="tracking-tighter mb-1">9+</span>
+                )}
               </div>
             )}
           </Link>
-          <Link
-            href={`/dashboard/raw-feedback/${site.id}`}
-            className="btn submit"
-          >
+          <Link href={`/feedback/${site.id}`} className="btn submit">
             Approved
           </Link>
         </div>

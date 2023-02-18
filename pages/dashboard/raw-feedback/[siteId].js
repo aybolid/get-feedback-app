@@ -29,7 +29,7 @@ export async function getStaticPaths() {
   };
 }
 
-const SiteFeedback = ({ rawFeedback }) => {
+const SiteRawFeedback = ({ rawFeedback }) => {
   return (
     <>
       <Head>
@@ -45,4 +45,4 @@ const SiteFeedback = ({ rawFeedback }) => {
   );
 };
 
-export default SiteFeedback;
+export default SiteRawFeedback;
