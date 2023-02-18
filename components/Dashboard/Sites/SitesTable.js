@@ -51,8 +51,8 @@ const SitesTable = ({ sites }) => {
           </h3>
           <p className="font-semibold text-lg">
             {user?.name
-              ? `Welcome 👋 Good to see you again, ${user.name}!`
-              : "Welcome 👋 Good to see you again!"}
+              ? `Welcome 👋 Good to see you, ${user.name}!`
+              : "Welcome 👋 Good to see you!"}
           </p>
           <div className="flex flex-grow justify-end items-center">
             {" "}
