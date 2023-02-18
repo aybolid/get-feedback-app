@@ -39,7 +39,7 @@ const DeleteSiteModal = ({
             onClick={() => setDisplayModal(false)}
             className="text-neutral-400 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-50 cursor-pointer duration-200 ease-in-out"
           >
-            <MdOutlineClose size={34} />
+            <MdOutlineClose title="close" size={34} />
           </button>
         </div>
         <p className="text-center font-mono text-xl p-4 rounded-lg bg-sky-100 dark:bg-neutral-700">

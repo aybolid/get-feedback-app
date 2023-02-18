@@ -28,8 +28,8 @@ const DashboardShell = ({ children }) => {
           <li>
             <Link
               className={`${
-                router.pathname === "/dashboard/sites" && "bg-neutral-700"
-              } hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out`}
+                router.pathname === "/dashboard/sites" && "dark:bg-neutral-700 bg-sky-100"
+              } hover:text-neutral-900 hover:bg-sky-200 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out`}
               href="/dashboard/sites"
             >
               Sites
@@ -37,7 +37,7 @@ const DashboardShell = ({ children }) => {
           </li>
           <li>
             <Link
-              className="hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out"
+              className="hover:text-neutral-900 hover:bg-sky-200 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out"
               href="/dashboard/sites"
             >
               Use Feedback
@@ -50,14 +50,14 @@ const DashboardShell = ({ children }) => {
               onClick={() => setTheme("dark")}
               className="opacity-40 active:scale-95 hover:opacity-100 ease-in-out duration-100"
             >
-              <MdOutlineDarkMode size={28} />
+              <MdOutlineDarkMode title="Dark Mode" size={28} />
             </button>
           ) : (
             <button
               onClick={() => setTheme("light")}
               className="opacity-40 active:scale-95 hover:opacity-100 ease-in-out duration-100"
             >
-              <MdOutlineLightMode size={28} />
+              <MdOutlineLightMode title="Light Mode" size={28} />
             </button>
           )}
           {auth?.user ? (

@@ -60,7 +60,7 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
             onClick={() => setDisplayModal(false)}
             className="text-neutral-400 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-50 cursor-pointer duration-200 ease-in-out"
           >
-            <MdOutlineClose size={34} />
+            <MdOutlineClose title="Close" size={34} />
           </button>
         </div>
         <form onSubmit={handleSubmit(handlAddSite)} className="pt-4 w-full">

@@ -32,9 +32,11 @@ const FeedbackCard = ({
             onMouseLeave={() => setDisplayDeleteHint(false)}
             className="relative opacity-40 active:scale-95 hover:opacity-100 hover:text-red-500 ease-in-out duration-100"
           >
-            <MdDelete size={20} />
+            <MdDelete title="Delete" size={20} />
             {displayDeleteHint ? (
-              <p className="rounded-sm text-red-500 absolute top-0 -left-14 text-sm w-14">2x click</p>
+              <p className="rounded-sm text-red-500 absolute top-0 -left-14 text-sm w-14">
+                2x click
+              </p>
             ) : null}
           </button>
           <button
