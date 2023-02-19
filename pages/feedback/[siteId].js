@@ -107,9 +107,7 @@ const SiteRawFeedback = ({ feedback }) => {
                   {feedback.text}
                 </p>
                 <div className="flex justify-between items-center">
-                  <p>
-                    Rating: {feedback.rating ? feedback.rating : "not provided"}
-                  </p>
+                  <p>{feedback.rating && `Rating: ${feedback.rating}`}</p>
                   <p className="text-sm text-neutral-500">
                     {format(parseISO(feedback.createdAt), "PPpp")}
                   </p>
