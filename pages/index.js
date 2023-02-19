@@ -2,6 +2,7 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 import { useAuth } from "@/lib/firebase/auth";
 import { SiGithub } from "react-icons/si";
+import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import Image from "next/image";
 import logoDark from "../public/logo-dark.svg";
@@ -41,12 +42,20 @@ const Home = () => {
             </div>
             <div>
               {!auth?.user ? (
-                <button
-                  className="btn submit"
-                  onClick={() => auth.signinWithGithub()}
-                >
-                  Sign In With Github <SiGithub title="Github" size={"24px"} />
-                </button>
+                  <div className="flex flex-row justify-center items-center gap-4">
+                    <button
+                      className="btn p-3 bg-black dark:hover:bg-neutral-900 hover:bg-neutral-700"
+                      onClick={() => auth.signinWithGithub()}
+                    >
+                      <SiGithub title="Github" size={"25px"} />
+                    </button>
+                    <button
+                      className="btn p-3 bg-white hover:bg-neutral-200 text-neutral-900 border border-neutral-800"
+                      onClick={() => auth.signinWithGoogle()}
+                    >
+                      <FcGoogle title="Google" size={"25px"} />
+                    </button>
+                  </div>
               ) : (
                 <div className="flex flex-row justify-center items-center gap-8">
                   <button className="btn danger" onClick={() => auth.signout()}>

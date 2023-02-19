@@ -49,21 +49,23 @@ const DashboardShell = ({ children }) => {
           </li>
         </ul>
         <div className="flex-grow gap-4 flex justify-end items-center h-full">
-          {theme === "light" ? (
-            <button
-              onClick={() => setTheme("dark")}
-              className="opacity-40 active:scale-95 hover:opacity-100 ease-in-out duration-100"
-            >
-              <MdOutlineDarkMode title="Dark Mode" size={28} />
-            </button>
-          ) : (
-            <button
-              onClick={() => setTheme("light")}
-              className="opacity-40 active:scale-95 hover:opacity-100 ease-in-out duration-100"
-            >
-              <MdOutlineLightMode title="Light Mode" size={28} />
-            </button>
-          )}
+          <motion.div className="flex justify-center items-center" whileTap={{ rotate: 360 }}>
+            {theme === "light" ? (
+              <button
+                onClick={() => setTheme("dark")}
+                className="opacity-40 active:scale-95 hover:opacity-100 ease-in-out duration-100"
+              >
+                <MdOutlineDarkMode title="Dark Mode" size={28} />
+              </button>
+            ) : (
+              <button
+                onClick={() => setTheme("light")}
+                className="opacity-40 active:scale-95 hover:opacity-100 ease-in-out duration-100"
+              >
+                <MdOutlineLightMode title="Light Mode" size={28} />
+              </button>
+            )}
+          </motion.div>
           {auth?.user ? (
             <button onClick={() => auth?.signout()} className="btn danger">
               Log Out
