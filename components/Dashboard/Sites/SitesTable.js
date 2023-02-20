@@ -1,42 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 import AddSiteModal from "../../Modals/AddSiteModal";
 import { useAuth } from "@/lib/firebase/auth";
 import SiteCard from "./SiteCard";
+import { notifyError, notifySuccess } from "@/helpers/toastNotification";
 
 const SitesTable = ({ sites }) => {
+  const { user } = useAuth();
+
   const [displayAddModal, SetDisplayAddModal] = useState(false);
   useEffect(() => {
     document.body.style.overflow = displayAddModal ? "hidden" : "";
   }, [displayAddModal]);
-
-  const { user } = useAuth();
-
-  const notifySuccess = () =>
-    toast.success("Site was added! 👌", {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-  const notifyError = () =>
-    toast.error("Unexpected error... 🙅‍♂️", {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
 
   return (
     <>
@@ -85,6 +63,7 @@ const SitesTable = ({ sites }) => {
           </ul>
         </div>
       </motion.div>
+
       {/* AddSiteModal */}
       {displayAddModal && (
         <AddSiteModal

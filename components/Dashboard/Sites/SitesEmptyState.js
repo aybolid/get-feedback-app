@@ -1,6 +1,7 @@
+import { notifyError, notifySuccess } from "@/helpers/toastNotification";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddSiteModal from "../../Modals/AddSiteModal";
 
@@ -9,29 +10,6 @@ const SitesEmptyState = () => {
   useEffect(() => {
     document.body.style.overflow = displayModal ? "hidden" : "";
   }, [displayModal]);
-
-  const notifySuccess = () =>
-    toast.success("Site was added! 👌", {
-      position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-  const notifyError = () =>
-    toast.error("Unexpected error... 🙅‍♂️", {
-      position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
 
   return (
     <>
@@ -62,6 +40,7 @@ const SitesEmptyState = () => {
           </div>
         </div>
       </motion.div>
+
       {/* AddSiteModal */}
       {displayModal && (
         <AddSiteModal
