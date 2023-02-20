@@ -15,19 +15,22 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
   } = useForm();
 
   const handlAddSite = ({ siteName, siteURL }) => {
+    const { uid } = user;
+    const date = new Date().toISOString();
+
     const newSite = {
-      authorId: user.uid,
-      createdAt: new Date().toISOString(),
+      authorId: uid,
+      createdAt: date,
       siteName,
       siteURL,
     };
+
     createSite(newSite)
       .then(() => mutate(["/api/sites", user.token], false))
       .then(() => setDisplayModal(false))
-      .then(() => notifySuccess())
-      .catch((error) => {
-        console.log(error);
-        notifyError();
+      .then(() => notifySuccess("Site was added! 👌"))
+      .catch(() => {
+        notifyError("An unexpected error has occurred... 🤦‍♂️");
       });
   };
 

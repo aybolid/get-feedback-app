@@ -1,32 +1,27 @@
 import { fetcher } from "@/helpers/fetchers";
 import { useAuth } from "@/lib/firebase/auth";
-import {
-  createApprovedFeedback,
-  createFeedback,
-  deleteDoc,
-} from "@/lib/firebase/db";
+import { createApprovedFeedback, deleteDoc } from "@/lib/firebase/db";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import React from "react";
 import { GridLoader } from "react-spinners";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import FeedbackCard from "./FeedbackCard";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import { notifyError, notifySuccess } from "@/helpers/toastNotification";
 
 const RawFeedbackTable = ({ rawFeedback }) => {
   const auth = useAuth();
   const router = useRouter();
 
-  // Get Raw Feedback
   const { data: feedback } = useSWR(
     `/api/feedback/raw/${router.query.siteId}`,
     fetcher
   );
   rawFeedback = feedback;
 
-  // Approve Feedback
   const handleFeedbackApprove = (feedback) => {
     const approvedFeedback = {
       author: feedback.author,
@@ -38,42 +33,19 @@ const RawFeedbackTable = ({ rawFeedback }) => {
       text: feedback.text,
       rating: feedback.rating,
     };
+
     createApprovedFeedback(approvedFeedback)
       .then(() => deleteDoc("rawFeedback", feedback.id))
       .then(() => mutate(`/api/feedback/raw/${router.query.siteId}`, false))
       .then(() => notifySuccess("Feedback was approved! 👌"))
-      .catch(() => notifyError());
+      .catch(() => notifyError("An unexpected error has occurred... 🤦‍♂️"));
   };
 
-  // Delete Feedback
   const handleDeleteFeedback = (id) => {
     deleteDoc("rawFeedback", id).then(() =>
       mutate(`/api/feedback/raw/${router.query.siteId}`, false)
     );
   };
-  // Notifications
-  const notifySuccess = (message) =>
-    toast.success(message, {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-  const notifyError = () =>
-    toast.error("Unexpected error... 🙅‍♂️", {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
 
   return (
     <>
@@ -132,6 +104,7 @@ const RawFeedbackTable = ({ rawFeedback }) => {
           )}
         </div>
       </motion.div>
+
       {/* Toast */}
       <ToastContainer
         position="bottom-right"
