@@ -5,11 +5,11 @@ import "../styles/globals.css";
 
 const App = ({ Component, pageProps }) => {
   return (
-    <ThemeProvider attribute="class">
-      <AuthProvider>
+    <AuthProvider>
+      <ThemeProvider attribute="class">
         <Component {...pageProps} />
-      </AuthProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 

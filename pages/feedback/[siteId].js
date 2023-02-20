@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import Head from "next/head";
 import { getAllSites } from "@/lib/firebase/db-admin";
 import useSWR from "swr";
@@ -33,30 +33,37 @@ export async function getStaticPaths() {
 
 const SiteRawFeedback = ({ feedback }) => {
   const { user } = useAuth();
-
   const feedbackInputRef = useRef(null);
   const ratingRef = useRef(null);
-
   const router = useRouter();
+
+  // Get data from api
   const { data: approvedFeedback } = useSWR(
     `/api/feedback/approved/${router.query.siteId}`,
     fetcher
   );
   feedback = approvedFeedback;
 
-  // Add Feedback
   const handleFeedbackAdd = (e) => {
     e.preventDefault();
+
+    const { name, uid, provider } = user;
+    const siteId = router.query.siteId;
+    const feedbackContent = feedbackInputRef.current.value;
+    const rating = ratingRef.current.value;
+    const date = new Date().toISOString();
+
     const newFeedback = {
-      author: user.name,
-      authorId: user.uid,
-      provider: user.provider,
-      siteId: router.query.siteId,
-      text: feedbackInputRef.current.value,
-      rating: ratingRef.current.value,
-      createdAt: new Date().toISOString(),
+      author: name,
+      authorId: uid,
+      provider: provider,
+      siteId: siteId,
+      text: feedbackContent,
+      rating: rating,
+      createdAt: date,
       status: "pending",
     };
+
     createFeedback(newFeedback).then(
       () => (feedbackInputRef.current.value = "")
     );

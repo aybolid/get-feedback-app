@@ -14,7 +14,7 @@ const Sites = () => {
     fetcherWithUser
   );
 
-  if (!sites)
+  if (!sites) {
     return (
       <>
         <Head>
@@ -33,6 +33,7 @@ const Sites = () => {
         </div>
       </>
     );
+  }
 
   return (
     <>

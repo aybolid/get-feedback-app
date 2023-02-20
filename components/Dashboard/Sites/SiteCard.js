@@ -1,5 +1,6 @@
 import DeleteSiteModal from "@/components/Modals/DeleteSiteModal";
 import { fetcher } from "@/helpers/fetchers";
+import { notifyError, notifySuccess } from "@/helpers/toastNotification";
 import { useAuth } from "@/lib/firebase/auth";
 import { deleteDoc, deleteSiteFeedback } from "@/lib/firebase/db";
 import { format, parseISO } from "date-fns";
@@ -10,13 +11,12 @@ import useSWR, { mutate } from "swr";
 
 const SiteCard = ({ site }) => {
   const { user } = useAuth();
-
-  const { data: feedback } = useSWR(`/api/feedback/raw/${site.id}`, fetcher);
-
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
   useEffect(() => {
     document.body.style.overflow = displayDeleteModal ? "hidden" : "";
   }, [displayDeleteModal]);
+
+  const { data: feedback } = useSWR(`/api/feedback/raw/${site.id}`, fetcher);
 
   const handleSiteDelete = (id) => {
     deleteDoc("sites", id)
@@ -24,7 +24,9 @@ const SiteCard = ({ site }) => {
       .then(() => {
         deleteSiteFeedback("rawFeedback", id);
         deleteSiteFeedback("approvedFeedback", id);
-      });
+      })
+      .then(() => notifySuccess("Site was deleted! 👌"))
+      .catch(() => notifyError("An unexpected error has occurred... 🤦‍♂️"));
   };
 
   return (
