@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import Head from "next/head";
 import { getAllSites } from "@/lib/firebase/db-admin";
 import useSWR from "swr";
 import { fetcher } from "@/helpers/fetchers";
@@ -7,6 +6,7 @@ import { useRouter } from "next/router";
 import { format, parseISO } from "date-fns";
 import { useAuth } from "@/lib/firebase/auth";
 import { createFeedback } from "@/lib/firebase/db";
+import { NextSeo } from "next-seo";
 
 export async function getStaticProps() {
   return {
@@ -31,11 +31,15 @@ export async function getStaticPaths() {
   };
 }
 
-const SiteRawFeedback = ({ feedback }) => {
+const title = "My Site Feedback - Get Feedback";
+
+const SiteFeedback = ({ feedback }) => {
   const { user } = useAuth();
   const feedbackInputRef = useRef(null);
   const ratingRef = useRef(null);
   const router = useRouter();
+
+  const url = "http://getfb.vercel.app" + router.asPath;
 
   // Get data from api
   const { data: approvedFeedback } = useSWR(
@@ -71,10 +75,14 @@ const SiteRawFeedback = ({ feedback }) => {
 
   return (
     <>
-      <Head>
-        <title>GF Feedback</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <NextSeo
+        title={title}
+        canonical={url}
+        openGraph={{
+          url,
+          title,
+        }}
+      />
       <div className="w-full h-full p-4">
         <div className="bg-white rounded-lg w-4/6 p-4 mx-auto my-0 text-neutral-700">
           <form className="pb-4">
@@ -128,4 +136,4 @@ const SiteRawFeedback = ({ feedback }) => {
   );
 };
 
-export default SiteRawFeedback;
+export default SiteFeedback;

@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useAuth } from "@/lib/firebase/auth";
 import { SiGithub } from "react-icons/si";
 import { FcGoogle } from "react-icons/fc";
@@ -7,16 +6,12 @@ import Image from "next/image";
 import logo from "../public/logo.svg";
 import { motion } from "framer-motion";
 
-const Home = () => {
+const Auth = () => {
   const { authError, signinWithGithub, signinWithGoogle, signout, user } =
     useAuth();
 
   return (
     <>
-      <Head>
-        <title>Get Feedback</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
       <div className="flex flex-col justify-center items-center w-full h-screen">
         <div className="flex flex-col gap-4 justify-center items-center px-5 py-4 bg-white dark:bg-neutral-800 rounded-lg w-80">
           <div className="flex flex-col justify-center items-center mb-10">
@@ -71,4 +66,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Auth;

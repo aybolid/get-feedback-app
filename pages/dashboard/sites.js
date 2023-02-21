@@ -1,4 +1,3 @@
-import Head from "next/head";
 import DashboardShell from "@/components/Dashboard/DashboardShell";
 import SitesEmptyState from "@/components/Dashboard/Sites/SitesEmptyState";
 import { GridLoader } from "react-spinners";
@@ -6,6 +5,10 @@ import SitesTable from "@/components/Dashboard/Sites/SitesTable";
 import useSWR from "swr";
 import { fetcherWithUser } from "@/helpers/fetchers";
 import { useAuth } from "@/lib/firebase/auth";
+import { NextSeo } from "next-seo";
+
+const title = "My Sites Table - Get Feedback";
+const url = "https://getfb.vercel.app/dashboard/sites";
 
 const Sites = () => {
   const { user } = useAuth();
@@ -17,10 +20,14 @@ const Sites = () => {
   if (!sites) {
     return (
       <>
-        <Head>
-          <title>GF Dashboard</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
+        <NextSeo
+          title={title}
+          canonical={url}
+          openGraph={{
+            url,
+            title,
+          }}
+        />
         <div className="w-full h-screen p-4">
           <DashboardShell>
             <GridLoader
@@ -37,10 +44,14 @@ const Sites = () => {
 
   return (
     <>
-      <Head>
-        <title>GF Dashboard</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <NextSeo
+        title={title}
+        canonical={url}
+        openGraph={{
+          url,
+          title,
+        }}
+      />
       <div className="w-full h-screen p-4">
         <DashboardShell>
           {sites.length === 0 ? (
