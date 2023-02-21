@@ -1,8 +1,9 @@
 import React from "react";
-import Head from "next/head";
 import { getAllSites } from "@/lib/firebase/db-admin";
 import DashboardShell from "@/components/Dashboard/DashboardShell";
 import RawFeedbackTable from "@/components/Feedback/RawFeedbackTable";
+import { NextSeo } from "next-seo";
+import { useRouter } from "next/router";
 
 export async function getStaticProps() {
   return {
@@ -27,13 +28,21 @@ export async function getStaticPaths() {
   };
 }
 
+const title = "Raw Feedback - Get Feedback";
+
 const SiteRawFeedback = ({ rawFeedback }) => {
+  const router = useRouter();
+  const url = "http://getfb.vercel.app" + router.asPath;
   return (
     <>
-      <Head>
-        <title>Raw Feedback</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <NextSeo
+        title={title}
+        canonical={url}
+        openGraph={{
+          url,
+          title,
+        }}
+      />
       <div className="w-full h-screen p-4">
         <DashboardShell>
           <RawFeedbackTable rawFeedback={rawFeedback} />
