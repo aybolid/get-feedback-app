@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { getAllSites } from "@/lib/firebase/db-admin";
 import useSWR from "swr";
 import { fetcher } from "@/helpers/fetchers";
@@ -7,6 +7,10 @@ import { format, parseISO } from "date-fns";
 import { useAuth } from "@/lib/firebase/auth";
 import { createFeedback } from "@/lib/firebase/db";
 import { NextSeo } from "next-seo";
+import { MdArrowBackIos } from "react-icons/md";
+import { Rating } from "react-simple-star-rating";
+import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 
 export async function getStaticProps() {
   return {
@@ -34,9 +38,14 @@ export async function getStaticPaths() {
 const title = "My Site Feedback - Get Feedback";
 
 const SiteFeedback = ({ feedback }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { user } = useAuth();
   const feedbackInputRef = useRef(null);
-  const ratingRef = useRef(null);
+  const [rating, setRating] = useState(0);
   const router = useRouter();
 
   const url = "http://getfb.vercel.app" + router.asPath;
@@ -48,13 +57,14 @@ const SiteFeedback = ({ feedback }) => {
   );
   feedback = approvedFeedback;
 
-  const handleFeedbackAdd = (e) => {
-    e.preventDefault();
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
 
+  const handleFeedbackAdd = ({ feedbackContent }) => {
     const { name, uid, provider } = user;
     const siteId = router.query.siteId;
-    const feedbackContent = feedbackInputRef.current.value;
-    const rating = ratingRef.current.value;
+    const ratingValue = rating;
     const date = new Date().toISOString();
 
     const newFeedback = {
@@ -63,14 +73,15 @@ const SiteFeedback = ({ feedback }) => {
       provider: provider,
       siteId: siteId,
       text: feedbackContent,
-      rating: rating,
+      rating: ratingValue,
       createdAt: date,
       status: "pending",
     };
 
-    createFeedback(newFeedback).then(
-      () => (feedbackInputRef.current.value = "")
-    );
+    createFeedback(newFeedback).then(() => {
+      setRating(0);
+      feedbackInputRef.current.value = "";
+    });
   };
 
   return (
@@ -84,30 +95,76 @@ const SiteFeedback = ({ feedback }) => {
         }}
       />
       <div className="w-full h-full p-4">
+        <button className="btn primary" onClick={() => router.back()}>
+          <MdArrowBackIos />
+          Go Back
+        </button>
         <div className="bg-white rounded-lg w-4/6 p-4 mx-auto my-0 text-neutral-700">
-          <form className="pb-4">
+          <form onSubmit={handleSubmit(handleFeedbackAdd)} className="pb-4">
             <div className="flex flex-col justify-center items-start">
-              <label className="font-semibold text-lg">Send Feedback</label>
-              <div className="flex justify-start items-center gap-4 w-full">
-                <input
+              <label htmlFor="feedbackInput" className="font-semibold text-lg">
+                Send Feedback
+              </label>
+              <div className="flex flex-col justify-center items-end w-full">
+                <textarea
+                  {...register("feedbackContent", {
+                    required: true,
+                    maxLength: 660,
+                  })}
                   ref={feedbackInputRef}
+                  id="feedbackInput"
+                  autoComplete="off"
                   placeholder="Your Feedback..."
-                  className="flex-grow px-2 bg-neutral-100 rounded-md h-8 border border-neutral-300"
+                  className="flex-grow w-full py-1 px-2 bg-neutral-100 rounded-md min-h-[32px] resize-y max-h-40 border border-neutral-300"
                 />
-                <select
-                  ref={ratingRef}
-                  className="bg-neutral-100 h-8 px-2 rounded-md border cursor-pointer border-neutral-300"
-                >
-                  <option value={5}>5</option>
-                  <option value={4}>4</option>
-                  <option value={3}>3</option>
-                  <option value={2}>2</option>
-                  <option value={1}>1</option>
-                </select>
-                <button onClick={handleFeedbackAdd} className="btn px-8 submit">
-                  Send
-                </button>
+                {errors.feedbackContent &&
+                  errors.feedbackContent.type === "required" && (
+                    <motion.span
+                      animate={{ x: 0, height: "auto", opacity: 1 }}
+                      initial={{ x: -200, height: 0, opacity: 0 }}
+                      className="text-red-500 font-mono mt-1 text-end"
+                    >
+                      This field is required
+                    </motion.span>
+                  )}
+                {errors.feedbackContent &&
+                  errors.feedbackContent.type === "maxLength" && (
+                    <motion.span
+                      animate={{ x: 0, height: "auto", opacity: 1 }}
+                      initial={{ x: -200, height: 0, opacity: 0 }}
+                      className="text-red-500 font-mono mt-1 text-end"
+                    >
+                      Max length is 660 digits
+                    </motion.span>
+                  )}
               </div>
+              <div className="my-4">
+                <Rating
+                  initialValue={rating}
+                  onClick={handleRating}
+                  emptyStyle={{ display: "flex" }}
+                  fillStyle={{ display: "-webkit-inline-box" }}
+                  transition
+                  showTooltip
+                  tooltipArray={[
+                    "Terrible",
+                    "Bad",
+                    "Average",
+                    "Good",
+                    "Awesome",
+                  ]}
+                  tooltipStyle={{
+                    backgroundColor: "#404040",
+                    fontWeight: "normal",
+                    padding: 4,
+                  }}
+                />
+              </div>
+              <input
+                value="Send"
+                type="submit"
+                className="btn px-8 bg-sky-500 hover:bg-sky-400"
+              />
             </div>
           </form>
           <div>
@@ -122,7 +179,17 @@ const SiteFeedback = ({ feedback }) => {
                   {feedback.text}
                 </p>
                 <div className="flex justify-between items-center">
-                  <p>{feedback.rating && `Rating: ${feedback.rating}`}</p>
+                  <p>
+                    {feedback.rating !== 0 && (
+                      <Rating
+                        emptyStyle={{ display: "flex" }}
+                        fillStyle={{ display: "-webkit-inline-box" }}
+                        initialValue={feedback.rating}
+                        readonly
+                        size={30}
+                      />
+                    )}
+                  </p>
                   <p className="text-sm text-neutral-500">
                     {format(parseISO(feedback.createdAt), "PPpp")}
                   </p>
