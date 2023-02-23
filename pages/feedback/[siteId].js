@@ -41,10 +41,10 @@ const SiteFeedback = ({ feedback }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const { user } = useAuth();
-  const feedbackInputRef = useRef(null);
   const [rating, setRating] = useState(0);
   const router = useRouter();
 
@@ -80,7 +80,7 @@ const SiteFeedback = ({ feedback }) => {
 
     createFeedback(newFeedback).then(() => {
       setRating(0);
-      feedbackInputRef.current.value = "";
+      reset();
     });
   };
 
@@ -111,7 +111,6 @@ const SiteFeedback = ({ feedback }) => {
                     required: true,
                     maxLength: 660,
                   })}
-                  ref={feedbackInputRef}
                   id="feedbackInput"
                   autoComplete="off"
                   placeholder="Your Feedback..."
