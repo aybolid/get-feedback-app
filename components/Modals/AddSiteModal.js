@@ -26,7 +26,7 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
     };
 
     createSite(newSite)
-      .then(() => mutate(["/api/sites", user.token], false))
+      .then(() => mutate(["/api/sites", user.token]))
       .then(() => setDisplayModal(false))
       .then(() => notifySuccess("Site was added! 👌"))
       .catch(() => {
