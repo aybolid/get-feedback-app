@@ -36,14 +36,14 @@ const RawFeedbackTable = ({ rawFeedback }) => {
 
     createApprovedFeedback(approvedFeedback)
       .then(() => deleteDoc("rawFeedback", feedback.id))
-      .then(() => mutate(`/api/feedback/raw/${router.query.siteId}`, false))
+      .then(() => mutate(`/api/feedback/raw/${router.query.siteId}`))
       .then(() => notifySuccess("Feedback was approved! 👌"))
       .catch(() => notifyError("An unexpected error has occurred... 🤦‍♂️"));
   };
 
   const handleDeleteFeedback = (id) => {
     deleteDoc("rawFeedback", id).then(() =>
-      mutate(`/api/feedback/raw/${router.query.siteId}`, false)
+      mutate(`/api/feedback/raw/${router.query.siteId}`)
     );
   };
 

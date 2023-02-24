@@ -8,6 +8,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import useSWR, { mutate } from "swr";
+import { motion } from "framer-motion";
 
 const SiteCard = ({ site }) => {
   const { user } = useAuth();
@@ -20,7 +21,7 @@ const SiteCard = ({ site }) => {
 
   const handleSiteDelete = (id) => {
     deleteDoc("sites", id)
-      .then(() => mutate(["/api/sites", user.token], false))
+      .then(() => mutate(["/api/sites", user.token]))
       .then(() => {
         deleteSiteFeedback("rawFeedback", id);
         deleteSiteFeedback("approvedFeedback", id);
@@ -31,8 +32,9 @@ const SiteCard = ({ site }) => {
 
   return (
     <>
-      <li
-        key={site.id}
+      <motion.li
+        animate={{ x: 0, opacity: 1 }}
+        initial={{ x: -400, opacity: 0 }}
         className="bg-white dark:bg-neutral-800 w-full h-20 flex justify-center items-center rounded-lg p-2 mt-2"
       >
         <div className="basis-2/4 px-1 font-semibold text-lg">
@@ -77,7 +79,7 @@ const SiteCard = ({ site }) => {
             <MdDelete title="Delete" size={20} />
           </button>
         </div>
-      </li>
+      </motion.li>
       {displayDeleteModal && (
         <DeleteSiteModal
           setDisplayModal={setDisplayDeleteModal}

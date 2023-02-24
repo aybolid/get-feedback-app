@@ -23,7 +23,7 @@ const FeedbackCard = ({
       </div>
       <div className="flex justify-between items-center w-full">
         <div>
-          <p>Rating: {feedback.rating}</p>
+          <p>Rating: {feedback.rating}/5</p>
         </div>
         <div className="flex justify-center items-center gap-4">
           <button

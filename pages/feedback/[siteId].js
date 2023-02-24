@@ -50,7 +50,6 @@ const SiteFeedback = ({ feedback }) => {
 
   const url = "http://getfb.vercel.app" + router.asPath;
 
-  // Get data from api
   const { data: approvedFeedback } = useSWR(
     `/api/feedback/approved/${router.query.siteId}`,
     fetcher
