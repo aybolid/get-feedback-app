@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getAllSites } from "@/lib/firebase/db-admin";
 import useSWR from "swr";
 import { fetcher } from "@/helpers/fetchers";
@@ -47,6 +47,7 @@ const SiteFeedback = ({ feedback }) => {
   const { user } = useAuth();
   const [rating, setRating] = useState(0);
   const router = useRouter();
+  const [displaySuccess, setDisplaySucces] = useState(false);
 
   const url = "http://getfb.vercel.app" + router.asPath;
 
@@ -77,11 +78,18 @@ const SiteFeedback = ({ feedback }) => {
       status: "pending",
     };
 
-    createFeedback(newFeedback).then(() => {
-      setRating(0);
-      reset();
-    });
+    createFeedback(newFeedback)
+      .then(() => {
+        setRating(0);
+        reset();
+      })
+      .then(() => setDisplaySucces(true));
   };
+  useEffect(() => {
+    setTimeout(() => {
+      displaySuccess && setDisplaySucces(false);
+    }, 5000);
+  }, [displaySuccess]);
 
   return (
     <>
@@ -99,7 +107,7 @@ const SiteFeedback = ({ feedback }) => {
           Go Back
         </button>
         <div className="bg-white rounded-lg w-4/6 p-4 mx-auto my-0 text-neutral-700">
-          <form onSubmit={handleSubmit(handleFeedbackAdd)} className="pb-4">
+          <form onSubmit={handleSubmit(handleFeedbackAdd)}>
             <div className="flex flex-col justify-center items-start">
               <label htmlFor="feedbackInput" className="font-semibold text-lg">
                 Send Feedback
@@ -158,12 +166,23 @@ const SiteFeedback = ({ feedback }) => {
                   }}
                 />
               </div>
-              <input
-                value="Send"
-                type="submit"
+              <button
                 className="btn px-8 bg-sky-500 hover:bg-sky-400"
-              />
+                type="submit"
+              >
+                Send
+              </button>
             </div>
+            {displaySuccess && (
+              <motion.p
+                animate={{ height: "min-content", opacity: 1 }}
+                initial={{ height: 0, opacity: 0 }}
+                className="w-full text-center mt-4 bg-green-500 rounded-md text-white font-semibold text-lg"
+              >
+                Your feedback was sent! The comment will be shown as soon as it
+                will be approved.
+              </motion.p>
+            )}
           </form>
           <div>
             {feedback?.map((feedback) => (
@@ -177,17 +196,15 @@ const SiteFeedback = ({ feedback }) => {
                   {feedback.text}
                 </p>
                 <div className="flex justify-between items-center">
-                  <p>
-                    {feedback.rating !== 0 && (
-                      <Rating
-                        emptyStyle={{ display: "flex" }}
-                        fillStyle={{ display: "-webkit-inline-box" }}
-                        initialValue={feedback.rating}
-                        readonly
-                        size={30}
-                      />
-                    )}
-                  </p>
+                  {feedback.rating !== 0 && (
+                    <Rating
+                      emptyStyle={{ display: "flex" }}
+                      fillStyle={{ display: "-webkit-inline-box" }}
+                      initialValue={feedback.rating}
+                      readonly
+                      size={30}
+                    />
+                  )}
                   <p className="text-sm text-neutral-500">
                     {format(parseISO(feedback.createdAt), "PPpp")}
                   </p>
