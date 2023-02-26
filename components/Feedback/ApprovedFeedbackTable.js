@@ -1,43 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import { getAllSites } from "@/lib/firebase/db-admin";
-import useSWR from "swr";
-import { fetcher } from "@/helpers/fetchers";
-import { useRouter } from "next/router";
-import { format, parseISO } from "date-fns";
-import { useAuth } from "@/lib/firebase/auth";
-import { createFeedback } from "@/lib/firebase/db";
-import { NextSeo } from "next-seo";
-import { MdArrowBackIos } from "react-icons/md";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Rating } from "react-simple-star-rating";
 import { useForm } from "react-hook-form";
-import { motion } from "framer-motion";
+import { useRouter } from "next/router";
+import { useAuth } from "@/lib/firebase/auth";
+import { format, parseISO } from "date-fns";
+import { createFeedback } from "@/lib/firebase/db";
+import Link from "next/link";
+import CopyToClipboard from "react-copy-to-clipboard";
 
-export async function getStaticProps() {
-  return {
-    props: {
-      feedback: [],
-    },
-    revalidate: 1,
-  };
-}
-
-export async function getStaticPaths() {
-  const sites = await getAllSites();
-  const paths = sites.map((site) => ({
-    params: {
-      siteId: site.id.toString(),
-    },
-  }));
-
-  return {
-    paths,
-    fallback: true,
-  };
-}
-
-const title = "My Site Feedback - Get Feedback";
-
-const SiteFeedback = ({ feedback }) => {
+const ApprovedFeedbackTable = ({ feedback }) => {
   const {
     register,
     handleSubmit,
@@ -49,13 +21,12 @@ const SiteFeedback = ({ feedback }) => {
   const router = useRouter();
   const [displaySuccess, setDisplaySucces] = useState(false);
 
-  const url = "http://getfb.vercel.app" + router.asPath;
-
-  const { data: approvedFeedback } = useSWR(
-    `/api/feedback/approved/${router.query.siteId}`,
-    fetcher
-  );
-  feedback = approvedFeedback;
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setCopied(false);
+    }, 5000);
+  }, [copied]);
 
   const handleRating = (rate) => {
     setRating(rate);
@@ -88,25 +59,52 @@ const SiteFeedback = ({ feedback }) => {
   useEffect(() => {
     setTimeout(() => {
       displaySuccess && setDisplaySucces(false);
-    }, 5000);
+    }, 1000);
   }, [displaySuccess]);
 
   return (
-    <>
-      <NextSeo
-        title={title}
-        canonical={url}
-        openGraph={{
-          url,
-          title,
-        }}
-      />
-      <div className="w-full h-full p-4">
-        <button className="btn primary" onClick={() => router.back()}>
-          <MdArrowBackIos />
-          Go Back
-        </button>
-        <div className="bg-white rounded-lg w-4/6 p-4 mx-auto my-0 text-neutral-700">
+    <motion.div
+      animate={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, x: 1000 }}
+      className="flex-grow bg-white dark:bg-neutral-800 w-5/6 rounded-lg flex flex-col justify-center"
+    >
+      <div className="p-6 flex items-center justify-start gap-x-10">
+        <h3 className="font-bold text-3xl dark:text-neutral-50 text-neutral-800">
+          Approved Feedback <span>\</span>
+        </h3>
+        <p className="font-semibold text-lg">
+          Preview your feedback component! 😲
+        </p>
+        <div className="flex flex-grow gap-4 justify-end items-center">
+          <CopyToClipboard
+            text={`https://getfb.vercel.app/embed/${router.query.siteId}`}
+          >
+            <button
+              onClick={() => setCopied(true)}
+              className="btn relative bg-purple-500 hover:bg-purple-400 dark:bg-purple-600 dark:hover:bg-purple-500"
+            >
+              Copy Embed Link
+              {copied && (
+                <motion.div
+                  animate={{ top: -24, opacity: 1 }}
+                  initial={{ top: 0, opacity: 0 }}
+                  className="text-green-500 dark:text-green-400 absolute -top-6 left-11"
+                >
+                  Copied 👍
+                </motion.div>
+              )}
+            </button>
+          </CopyToClipboard>
+          <Link
+            href={`/dashboard/raw/${router.query.siteId}`}
+            className="btn primary"
+          >
+            View Raw
+          </Link>
+        </div>
+      </div>
+      <div className="flex-grow dark:bg-neutral-600 bg-sky-100 flex justify-center items-center rounded-b-lg p-4">
+        <div className="bg-white rounded-lg w-full h-full p-4 mx-auto my-0 text-neutral-700">
           <form onSubmit={handleSubmit(handleFeedbackAdd)}>
             <div className="flex flex-col justify-center items-start">
               <label htmlFor="feedbackInput" className="font-semibold text-lg">
@@ -187,7 +185,7 @@ const SiteFeedback = ({ feedback }) => {
           <div>
             {feedback?.map((feedback) => (
               <div key={feedback.id}>
-                <div className="w-line my-2" />
+                <div className="w-line my-2 mt-4" />
                 <div className="flex justify-start gap-4 items-center">
                   <p className="font-semibold text-xl">{feedback.author}</p>
                   <p>provider: {feedback.provider}</p>
@@ -214,8 +212,8 @@ const SiteFeedback = ({ feedback }) => {
           </div>
         </div>
       </div>
-    </>
+    </motion.div>
   );
 };
 
-export default SiteFeedback;
+export default ApprovedFeedbackTable;

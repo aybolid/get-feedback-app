@@ -52,7 +52,7 @@ const SiteCard = ({ site }) => {
         </div>
         <div className="basis-3/6 px-1 flex justify-start items-center gap-4">
           <Link
-            href={`/dashboard/raw-feedback/${site.id}`}
+            href={`/dashboard/raw/${site.id}`}
             className="btn primary relative"
           >
             Raw
@@ -66,7 +66,7 @@ const SiteCard = ({ site }) => {
               </div>
             )}
           </Link>
-          <Link href={`/feedback/${site.id}`} className="btn submit">
+          <Link href={`/dashboard/approved/${site.id}`} className="btn submit">
             Approved
           </Link>
         </div>
