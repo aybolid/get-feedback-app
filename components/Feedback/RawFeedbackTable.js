@@ -1,5 +1,4 @@
 import { fetcher } from "@/helpers/fetchers";
-import { useAuth } from "@/lib/firebase/auth";
 import { createApprovedFeedback, deleteDoc } from "@/lib/firebase/db";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -13,7 +12,6 @@ import Link from "next/link";
 import { notifyError, notifySuccess } from "@/helpers/toastNotification";
 
 const RawFeedbackTable = ({ rawFeedback }) => {
-  const auth = useAuth();
   const router = useRouter();
 
   const { data: feedback } = useSWR(
@@ -58,17 +56,13 @@ const RawFeedbackTable = ({ rawFeedback }) => {
           <h3 className="font-bold text-3xl dark:text-neutral-50 text-neutral-800">
             Raw Feedback <span>\</span>
           </h3>
-          <p className="font-semibold text-lg">
-            {auth?.user?.name
-              ? `Welcome 👋 Good to see you, ${auth.user.name}!`
-              : "Welcome 👋 Good to see you!"}
-          </p>
+          <p className="font-semibold text-lg">Manage received feedback 🔍</p>
           <div className="flex flex-grow justify-end items-center">
             <Link
-              href={`/feedback/${router.query.siteId}`}
+              href={`/dashboard/approved/${router.query.siteId}`}
               className="btn primary"
             >
-              View Approved Feedback
+              View Approved
             </Link>
           </div>
         </div>
