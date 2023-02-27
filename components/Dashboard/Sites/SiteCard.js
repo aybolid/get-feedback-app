@@ -42,6 +42,7 @@ const SiteCard = ({ site }) => {
         </div>
         <div className="basis-3/4 px-1 text-lg">
           <a
+            title="Site external URL"
             className="flex justify-start gap-3 max-w-min items-center hover:text-neutral-900 hover:bg-sky-100 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600 duration-150 ease-in-out"
             href={site.siteURL}
             target="_blank"
@@ -52,6 +53,7 @@ const SiteCard = ({ site }) => {
         </div>
         <div className="basis-3/6 px-1 flex justify-start items-center gap-4">
           <Link
+            title="View raw feedback page"
             href={`/dashboard/raw/${site.id}`}
             className="btn primary relative"
           >
@@ -66,7 +68,11 @@ const SiteCard = ({ site }) => {
               </div>
             )}
           </Link>
-          <Link href={`/dashboard/approved/${site.id}`} className="btn submit">
+          <Link
+            title="View approved feedback page"
+            href={`/dashboard/approved/${site.id}`}
+            className="btn submit"
+          >
             Approved
           </Link>
         </div>

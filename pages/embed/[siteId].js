@@ -11,6 +11,8 @@ import { MdArrowBackIos } from "react-icons/md";
 import { Rating } from "react-simple-star-rating";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
+import { FcGoogle } from "react-icons/fc";
+import { SiGithub } from "react-icons/si";
 
 export async function getStaticProps() {
   return {
@@ -163,6 +165,7 @@ const SiteFeedback = ({ feedback }) => {
                 />
               </div>
               <button
+                title="Send your feedback"
                 className="btn px-8 bg-sky-500 hover:bg-sky-400"
                 type="submit"
               >
@@ -186,11 +189,15 @@ const SiteFeedback = ({ feedback }) => {
                 <div className="w-line my-2 mt-4" />
                 <div className="flex justify-start gap-4 items-center">
                   <p className="font-semibold text-xl">{feedback.author}</p>
-                  <p>provider: {feedback.provider}</p>
+                  <div className="mt-1">
+                    {feedback.provider === "google.com" && (
+                      <FcGoogle title="Google" size={20} />
+                    )}
+                    {feedback.provider === "github.com" && (
+                      <SiGithub title="Github" size={20} />
+                    )}
+                  </div>
                 </div>
-                <p className="text-neutral-900 font-medium p-2 my-2 text-md bg-neutral-100 rounded-lg">
-                  {feedback.text}
-                </p>
                 <div className="flex justify-between items-center">
                   {feedback.rating !== 0 && (
                     <Rating
@@ -198,13 +205,16 @@ const SiteFeedback = ({ feedback }) => {
                       fillStyle={{ display: "-webkit-inline-box" }}
                       initialValue={feedback.rating}
                       readonly
-                      size={30}
+                      size={20}
                     />
                   )}
                   <p className="text-sm text-neutral-500">
                     {format(parseISO(feedback.createdAt), "PPpp")}
                   </p>
                 </div>
+                <p className="text-neutral-900 font-medium p-2 my-2 text-md bg-neutral-100 rounded-lg">
+                  {feedback.text}
+                </p>
               </div>
             ))}
           </div>

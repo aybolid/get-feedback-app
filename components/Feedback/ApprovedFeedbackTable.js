@@ -8,6 +8,8 @@ import { format, parseISO } from "date-fns";
 import { createFeedback } from "@/lib/firebase/db";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { SiGithub } from "react-icons/si";
+import { FcGoogle } from "react-icons/fc";
 
 const ApprovedFeedbackTable = ({ feedback }) => {
   const {
@@ -80,6 +82,7 @@ const ApprovedFeedbackTable = ({ feedback }) => {
             text={`https://getfb.vercel.app/embed/${router.query.siteId}`}
           >
             <button
+              title="Copy site embed link to clipboard"
               onClick={() => setCopied(true)}
               className="btn relative bg-purple-500 hover:bg-purple-400 dark:bg-purple-600 dark:hover:bg-purple-500"
             >
@@ -96,6 +99,7 @@ const ApprovedFeedbackTable = ({ feedback }) => {
             </button>
           </CopyToClipboard>
           <Link
+            title="View raw feedback page"
             href={`/dashboard/raw/${router.query.siteId}`}
             className="btn primary"
           >
@@ -165,6 +169,7 @@ const ApprovedFeedbackTable = ({ feedback }) => {
                 />
               </div>
               <button
+                title="Send your feedback"
                 className="btn px-8 bg-sky-500 hover:bg-sky-400"
                 type="submit"
               >
@@ -188,11 +193,15 @@ const ApprovedFeedbackTable = ({ feedback }) => {
                 <div className="w-line my-2 mt-4" />
                 <div className="flex justify-start gap-4 items-center">
                   <p className="font-semibold text-xl">{feedback.author}</p>
-                  <p>provider: {feedback.provider}</p>
+                  <div className="mt-1">
+                    {feedback.provider === "google.com" && (
+                      <FcGoogle title="Google" size={20} />
+                    )}
+                    {feedback.provider === "github.com" && (
+                      <SiGithub title="Github" size={20} />
+                    )}
+                  </div>
                 </div>
-                <p className="text-neutral-900 font-medium p-2 my-2 text-md bg-neutral-100 rounded-lg">
-                  {feedback.text}
-                </p>
                 <div className="flex justify-between items-center">
                   {feedback.rating !== 0 && (
                     <Rating
@@ -200,13 +209,16 @@ const ApprovedFeedbackTable = ({ feedback }) => {
                       fillStyle={{ display: "-webkit-inline-box" }}
                       initialValue={feedback.rating}
                       readonly
-                      size={30}
+                      size={20}
                     />
                   )}
                   <p className="text-sm text-neutral-500">
                     {format(parseISO(feedback.createdAt), "PPpp")}
                   </p>
                 </div>
+                <p className="text-neutral-900 font-medium p-2 my-2 text-md bg-neutral-100 rounded-lg">
+                  {feedback.text}
+                </p>
               </div>
             ))}
           </div>

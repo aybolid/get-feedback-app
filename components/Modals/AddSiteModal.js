@@ -126,12 +126,14 @@ const AddSiteModal = ({ notifyError, notifySuccess, setDisplayModal }) => {
           </div>
           <div className="flex justify-between items-center w-full mt-8">
             <button
+              title="Cancel"
               onClick={() => setDisplayModal(false)}
               className="btn danger"
             >
               Cancel
             </button>
             <input
+              title="Add new site"
               value="Add"
               type="submit"
               className="btn submit cursor-pointer"

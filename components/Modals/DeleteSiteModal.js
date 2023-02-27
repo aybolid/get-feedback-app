@@ -51,12 +51,14 @@ const DeleteSiteModal = ({
         </p>
         <div className="flex w-full justify-between items-center">
           <button
+            title="Cancel"
             onClick={() => setDisplayModal(false)}
             className="btn primary"
           >
             Cancel
           </button>
           <button
+            title="Delete site"
             onClick={() => {
               handleSiteDelete(siteId);
             }}

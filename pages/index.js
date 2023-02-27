@@ -26,12 +26,14 @@ const Auth = () => {
             {!user ? (
               <div className="flex flex-row justify-center items-center gap-4">
                 <button
+                  title="Log in via Github"
                   className="btn p-3 bg-black dark:hover:bg-neutral-900 hover:bg-neutral-700"
                   onClick={() => signinWithGithub()}
                 >
                   <SiGithub title="Github" size={"25px"} />
                 </button>
                 <button
+                  title="Log in via Google"
                   className="btn p-3 bg-neutral-100 hover:bg-neutral-200 text-neutral-900"
                   onClick={() => signinWithGoogle()}
                 >
@@ -40,10 +42,18 @@ const Auth = () => {
               </div>
             ) : (
               <div className="flex flex-row justify-center items-center gap-8">
-                <button className="btn danger" onClick={() => signout()}>
+                <button
+                  title="Sign out"
+                  className="btn danger"
+                  onClick={() => signout()}
+                >
                   Sign Out
                 </button>
-                <Link href="/dashboard/sites" className="btn primary">
+                <Link
+                  title="Vies dashboard page"
+                  href="/dashboard/sites"
+                  className="btn primary"
+                >
                   View Dashboard
                 </Link>
               </div>

@@ -59,6 +59,7 @@ const RawFeedbackTable = ({ rawFeedback }) => {
           <p className="font-semibold text-lg">Manage received feedback 🔍</p>
           <div className="flex flex-grow justify-end items-center">
             <Link
+              title="View approved feedback page"
               href={`/dashboard/approved/${router.query.siteId}`}
               className="btn primary"
             >
