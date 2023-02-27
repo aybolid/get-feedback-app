@@ -13,6 +13,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useTheme } from "next-themes";
 
 const ApprovedFeedbackTable = ({ feedback }) => {
+  console.log("feedback: ", feedback);
   const {
     register,
     handleSubmit,
@@ -110,7 +111,7 @@ const ApprovedFeedbackTable = ({ feedback }) => {
         </div>
       </div>
       <div className="flex-grow dark:bg-neutral-600 bg-sky-100 flex justify-center items-center rounded-b-lg p-4">
-        <div className="bg-white dark:bg-neutral-800 rounded-lg w-full h-full p-4 mx-auto my-0 text-neutral-700 dark:text-neutral-50">
+        <section className="bg-white dark:bg-neutral-800 rounded-lg w-full h-full p-4 mx-auto my-0 text-neutral-700 dark:text-neutral-50">
           <form onSubmit={handleSubmit(handleFeedbackAdd)}>
             <div className="flex flex-col justify-center items-start">
               <label htmlFor="feedbackInput" className="font-semibold text-lg">
@@ -187,54 +188,59 @@ const ApprovedFeedbackTable = ({ feedback }) => {
               <motion.p
                 animate={{ height: "min-content", opacity: 1 }}
                 initial={{ height: 0, opacity: 0 }}
-                className="w-full text-center mt-4 bg-green-500 rounded-md text-white font-semibold text-lg"
+                className="w-full text-center mb-4 bg-green-500 rounded-md text-white font-semibold text-lg"
               >
                 Your feedback was sent! The comment will be shown as soon as it
                 will be approved.
               </motion.p>
             )}
           </form>
-          <div>
-            <section className="max-h-screen py-2 dark:bg-neutral-700 bg-neutral-100 rounded-lg overflow-x-hidden overflow-y-auto">
-              {feedback?.map((feedback) => (
-                <div className="px-4" key={feedback.id}>
-                  {/* <div className="w-line my-2 mt-4" /> */}
-                  <div className="flex justify-start gap-4 items-center">
-                    <p className="font-semibold text-xl">{feedback.author}</p>
-                    <div className="mt-1">
-                      {feedback.provider === "google.com" && (
-                        <FcGoogle title="Google" size={20} />
-                      )}
-                      {feedback.provider === "github.com" && (
-                        <SiGithub title="Github" size={20} />
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    {feedback.rating !== 0 ? (
-                      <Rating
-                        emptyColor={theme === "light" ? "#e0e0e0" : "#525252"}
-                        emptyStyle={{ display: "flex" }}
-                        fillStyle={{ display: "-webkit-inline-box" }}
-                        initialValue={feedback.rating}
-                        readonly
-                        size={20}
-                      />
-                    ) : (
-                      <span />
+          <section className="max-h-screen dark:bg-neutral-700 bg-neutral-100 rounded-lg overflow-x-hidden overflow-y-auto">
+            {!feedback ||
+              (feedback.length === 0 && (
+                <p className="w-full text-center py-4 text-lg font-semibold">
+                  There is no feedback on this website
+                </p>
+              ))}
+            {feedback?.map((feedback) => (
+              <div className="px-4 py-4 dark:even:bg-[#353535] even:bg-[#efefef]" key={feedback.id}>
+                <div className="flex justify-start gap-4 items-center">
+                  <p className="font-semibold text-xl">{feedback.author}</p>
+                  <div className="mt-1">
+                    {feedback.provider === "google.com" && (
+                      <FcGoogle title="Google" size={20} />
                     )}
+                    {feedback.provider === "github.com" && (
+                      <SiGithub title="Github" size={20} />
+                    )}
+                  </div>
+                  <div className="flex-grow flex justify-end items-center">
                     <p className="text-sm text-neutral-400">
                       {format(parseISO(feedback.createdAt), "PPpp")}
                     </p>
                   </div>
-                  <p className="text-neutral-900 dark:text-neutral-50 font-medium p-2 my-2 text-md bg-white dark:bg-neutral-800 rounded-lg">
-                    {feedback.text}
-                  </p>
                 </div>
-              ))}
-            </section>
-          </div>
-        </div>
+                <div className="flex justify-start items-center">
+                  {feedback.rating !== 0 ? (
+                    <Rating
+                      emptyColor={theme === "light" ? "#e0e0e0" : "#525252"}
+                      emptyStyle={{ display: "flex" }}
+                      fillStyle={{ display: "-webkit-inline-box" }}
+                      initialValue={feedback.rating}
+                      readonly
+                      size={20}
+                    />
+                  ) : (
+                    <span />
+                  )}
+                </div>
+                <p className="text-neutral-900 dark:text-neutral-50 font-medium p-2 mt-2 text-md bg-white dark:bg-neutral-800 rounded-lg">
+                  {feedback.text}
+                </p>
+              </div>
+            ))}
+          </section>
+        </section>
       </div>
     </motion.div>
   );
