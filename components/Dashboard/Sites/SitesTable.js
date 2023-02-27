@@ -35,6 +35,7 @@ const SitesTable = ({ sites }) => {
           <div className="flex flex-grow justify-end items-center">
             {" "}
             <button
+              title="Add new site"
               onClick={() => SetDisplayAddModal(!displayAddModal)}
               className="btn submit"
             >

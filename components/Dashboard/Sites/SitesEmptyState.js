@@ -32,6 +32,7 @@ const SitesEmptyState = () => {
               You haven&apos;t added any sites... 😢
             </p>
             <button
+              title="Add new site"
               onClick={() => setDisplayModal(!displayModal)}
               className="btn primary"
             >
