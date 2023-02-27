@@ -89,8 +89,8 @@ const DashboardShell = ({ children }) => {
             {auth?.user?.photoURL ? (
               <Image
                 title="User profile photo"
-                width={48}
-                height={48}
+                width={200}
+                height={200}
                 src={auth.user.photoURL}
                 alt="User Photo"
                 unoptimized

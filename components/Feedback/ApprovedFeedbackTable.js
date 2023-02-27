@@ -10,6 +10,7 @@ import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { SiGithub } from "react-icons/si";
 import { FcGoogle } from "react-icons/fc";
+import { useTheme } from "next-themes";
 
 const ApprovedFeedbackTable = ({ feedback }) => {
   const {
@@ -22,6 +23,7 @@ const ApprovedFeedbackTable = ({ feedback }) => {
   const [rating, setRating] = useState(0);
   const router = useRouter();
   const [displaySuccess, setDisplaySucces] = useState(false);
+  const { theme } = useTheme();
 
   const [copied, setCopied] = useState(false);
   useEffect(() => {
@@ -82,7 +84,7 @@ const ApprovedFeedbackTable = ({ feedback }) => {
             text={`https://getfb.vercel.app/embed/${router.query.siteId}`}
           >
             <button
-              title="Copy site embed link to clipboard"
+              title="Copy feedback embed link to clipboard"
               onClick={() => setCopied(true)}
               className="btn relative bg-purple-500 hover:bg-purple-400 dark:bg-purple-600 dark:hover:bg-purple-500"
             >
@@ -108,13 +110,13 @@ const ApprovedFeedbackTable = ({ feedback }) => {
         </div>
       </div>
       <div className="flex-grow dark:bg-neutral-600 bg-sky-100 flex justify-center items-center rounded-b-lg p-4">
-        <div className="bg-white rounded-lg w-full h-full p-4 mx-auto my-0 text-neutral-700">
+        <div className="bg-white dark:bg-neutral-800 rounded-lg w-full h-full p-4 mx-auto my-0 text-neutral-700 dark:text-neutral-50">
           <form onSubmit={handleSubmit(handleFeedbackAdd)}>
             <div className="flex flex-col justify-center items-start">
               <label htmlFor="feedbackInput" className="font-semibold text-lg">
                 Send Feedback
               </label>
-              <div className="flex flex-col justify-center items-end w-full">
+              <div className="w-full relative">
                 <textarea
                   {...register("feedbackContent", {
                     required: true,
@@ -123,33 +125,38 @@ const ApprovedFeedbackTable = ({ feedback }) => {
                   id="feedbackInput"
                   autoComplete="off"
                   placeholder="Your Feedback..."
-                  className="flex-grow w-full py-1 px-2 bg-neutral-100 rounded-md min-h-[32px] resize-y max-h-40 border border-neutral-300"
+                  className="flex-grow w-full py-1 px-2 bg-neutral-100 dark:bg-neutral-700 rounded-md min-h-[32px] resize-y max-h-40"
                 />
-                {errors.feedbackContent &&
-                  errors.feedbackContent.type === "required" && (
-                    <motion.span
-                      animate={{ x: 0, height: "auto", opacity: 1 }}
-                      initial={{ x: -200, height: 0, opacity: 0 }}
-                      className="text-red-500 font-mono mt-1 text-end"
-                    >
-                      This field is required
-                    </motion.span>
-                  )}
-                {errors.feedbackContent &&
-                  errors.feedbackContent.type === "maxLength" && (
-                    <motion.span
-                      animate={{ x: 0, height: "auto", opacity: 1 }}
-                      initial={{ x: -200, height: 0, opacity: 0 }}
-                      className="text-red-500 font-mono mt-1 text-end"
-                    >
-                      Max length is 660 digits
-                    </motion.span>
-                  )}
+                <div className="absolute -bottom-6 right-0">
+                  {errors.feedbackContent &&
+                    errors.feedbackContent.type === "required" && (
+                      <motion.span
+                        animate={{ opacity: 1 }}
+                        initial={{ opacity: 0 }}
+                        transition={{ duration: 0.1 }}
+                        className="text-red-500 font-mono mt-1 text-end"
+                      >
+                        This field is required
+                      </motion.span>
+                    )}
+                  {errors.feedbackContent &&
+                    errors.feedbackContent.type === "maxLength" && (
+                      <motion.span
+                        animate={{ opacity: 1 }}
+                        initial={{ opacity: 0 }}
+                        transition={{ duration: 0.1 }}
+                        className="text-red-500 font-mono mt-1 text-end"
+                      >
+                        Max length is 660 digits
+                      </motion.span>
+                    )}
+                </div>
               </div>
               <div className="my-4">
                 <Rating
                   initialValue={rating}
                   onClick={handleRating}
+                  emptyColor={theme === "light" ? "#e0e0e0" : "#525252"}
                   emptyStyle={{ display: "flex" }}
                   fillStyle={{ display: "-webkit-inline-box" }}
                   transition
@@ -170,7 +177,7 @@ const ApprovedFeedbackTable = ({ feedback }) => {
               </div>
               <button
                 title="Send your feedback"
-                className="btn px-8 bg-sky-500 hover:bg-sky-400"
+                className="btn mb-4 px-8 primary"
                 type="submit"
               >
                 Send
@@ -188,39 +195,44 @@ const ApprovedFeedbackTable = ({ feedback }) => {
             )}
           </form>
           <div>
-            {feedback?.map((feedback) => (
-              <div key={feedback.id}>
-                <div className="w-line my-2 mt-4" />
-                <div className="flex justify-start gap-4 items-center">
-                  <p className="font-semibold text-xl">{feedback.author}</p>
-                  <div className="mt-1">
-                    {feedback.provider === "google.com" && (
-                      <FcGoogle title="Google" size={20} />
-                    )}
-                    {feedback.provider === "github.com" && (
-                      <SiGithub title="Github" size={20} />
-                    )}
+            <section className="max-h-screen py-2 dark:bg-neutral-700 bg-neutral-100 rounded-lg overflow-x-hidden overflow-y-auto">
+              {feedback?.map((feedback) => (
+                <div className="px-4" key={feedback.id}>
+                  {/* <div className="w-line my-2 mt-4" /> */}
+                  <div className="flex justify-start gap-4 items-center">
+                    <p className="font-semibold text-xl">{feedback.author}</p>
+                    <div className="mt-1">
+                      {feedback.provider === "google.com" && (
+                        <FcGoogle title="Google" size={20} />
+                      )}
+                      {feedback.provider === "github.com" && (
+                        <SiGithub title="Github" size={20} />
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  {feedback.rating !== 0 && (
-                    <Rating
-                      emptyStyle={{ display: "flex" }}
-                      fillStyle={{ display: "-webkit-inline-box" }}
-                      initialValue={feedback.rating}
-                      readonly
-                      size={20}
-                    />
-                  )}
-                  <p className="text-sm text-neutral-500">
-                    {format(parseISO(feedback.createdAt), "PPpp")}
+                  <div className="flex justify-between items-center">
+                    {feedback.rating !== 0 ? (
+                      <Rating
+                        emptyColor={theme === "light" ? "#e0e0e0" : "#525252"}
+                        emptyStyle={{ display: "flex" }}
+                        fillStyle={{ display: "-webkit-inline-box" }}
+                        initialValue={feedback.rating}
+                        readonly
+                        size={20}
+                      />
+                    ) : (
+                      <span />
+                    )}
+                    <p className="text-sm text-neutral-400">
+                      {format(parseISO(feedback.createdAt), "PPpp")}
+                    </p>
+                  </div>
+                  <p className="text-neutral-900 dark:text-neutral-50 font-medium p-2 my-2 text-md bg-white dark:bg-neutral-800 rounded-lg">
+                    {feedback.text}
                   </p>
                 </div>
-                <p className="text-neutral-900 font-medium p-2 my-2 text-md bg-neutral-100 rounded-lg">
-                  {feedback.text}
-                </p>
-              </div>
-            ))}
+              ))}
+            </section>
           </div>
         </div>
       </div>
