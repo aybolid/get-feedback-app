@@ -5,10 +5,17 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "../public/logo.svg";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 
 const Auth = () => {
-  const { authError, signinWithGithub, signinWithGoogle, signout, user } =
-    useAuth();
+  const {
+    authError,
+    signinWithRedirectGithub,
+    signinWithRedirectGoogle,
+    signout,
+    user,
+  } = useAuth();
+  const router = useRouter();
 
   return (
     <>
@@ -24,20 +31,22 @@ const Auth = () => {
           </div>
           <div>
             {!user ? (
-              <div className="flex flex-row justify-center items-center gap-4">
+              <div className="flex flex-col justify-center items-center gap-4">
                 <button
-                  title="Log in via Github"
-                  className="btn p-3 bg-black dark:hover:bg-neutral-900 hover:bg-neutral-700"
-                  onClick={() => signinWithGithub()}
+                  title="Sign in with Github"
+                  className="btn p-3 bg-black dark:hover:bg-neutral-900 hover:bg-neutral-700 shadow-md"
+                  onClick={() => {
+                    signinWithRedirectGithub();
+                  }}
                 >
-                  <SiGithub title="Github" size={"25px"} />
+                  <SiGithub title="Github" size={"25px"} /> Sign In With Github
                 </button>
                 <button
-                  title="Log in via Google"
-                  className="btn p-3 bg-neutral-100 hover:bg-neutral-200 text-neutral-900"
-                  onClick={() => signinWithGoogle()}
+                  title="Sign in with Google"
+                  className="btn p-3 bg-neutral-100 dark:bg-white dark:hover:bg-neutral-300 hover:bg-neutral-200 text-neutral-900 shadow-md"
+                  onClick={() => signinWithRedirectGoogle()}
                 >
-                  <FcGoogle title="Google" size={"25px"} />
+                  <FcGoogle title="Google" size={"25px"} /> Sign In With Google
                 </button>
               </div>
             ) : (
@@ -63,7 +72,7 @@ const Auth = () => {
             <motion.div
               animate={{ height: "auto", opacity: 1 }}
               initial={{ height: 0, opacity: 0 }}
-              className="dark:bg-neutral-700 bg-sky-100 rounded-lg"
+              className="dark:bg-neutral-700 bg-neutral-100 rounded-lg"
             >
               <p className="p-4 text-red-400 dark:text-red-500 font-mono">
                 {authError.message.replace("Firebase:", "")}

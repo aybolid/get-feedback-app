@@ -13,7 +13,6 @@ import { FcGoogle } from "react-icons/fc";
 import { useTheme } from "next-themes";
 
 const ApprovedFeedbackTable = ({ feedback }) => {
-  console.log("feedback: ", feedback);
   const {
     register,
     handleSubmit,
@@ -26,6 +25,7 @@ const ApprovedFeedbackTable = ({ feedback }) => {
   const [displaySuccess, setDisplaySucces] = useState(false);
   const { theme } = useTheme();
 
+  const [displayCopyBtn, setDisplayCopyBtn] = useState(false);
   const [copied, setCopied] = useState(false);
   useEffect(() => {
     setTimeout(() => {
@@ -81,26 +81,51 @@ const ApprovedFeedbackTable = ({ feedback }) => {
           Preview your feedback component! 😲
         </p>
         <div className="flex flex-grow gap-4 justify-end items-center">
-          <CopyToClipboard
-            text={`https://getfb.vercel.app/embed/${router.query.siteId}`}
+          <button
+            onMouseEnter={() => setDisplayCopyBtn(true)}
+            onMouseLeave={() => setDisplayCopyBtn(false)}
+            title="Copy feedback embed link to clipboard"
+            className="flex duration-150 ease-in-out gap-2 justify-center items-center text-neutral-50 px-3 py-1 capitalize font-bold rounded-md relative bg-purple-500 hover:bg-purple-400 dark:bg-purple-600 dark:hover:bg-purple-500"
           >
-            <button
-              title="Copy feedback embed link to clipboard"
-              onClick={() => setCopied(true)}
-              className="btn relative bg-purple-500 hover:bg-purple-400 dark:bg-purple-600 dark:hover:bg-purple-500"
-            >
-              Copy Embed Link
-              {copied && (
-                <motion.div
-                  animate={{ top: -24, opacity: 1 }}
-                  initial={{ top: 0, opacity: 0 }}
-                  className="text-green-500 dark:text-green-400 absolute -top-6 left-11"
+            Copy Embed Link
+            {copied && (
+              <motion.div
+                animate={{ top: -24, opacity: 1 }}
+                initial={{ top: 0, opacity: 0 }}
+                className="text-green-500 dark:text-green-400 absolute -top-6 left-11"
+              >
+                Copied 👍
+              </motion.div>
+            )}
+            {displayCopyBtn && (
+              <motion.div
+                animate={{ xHeight: "auto" }}
+                initial={{ xHeight: 0 }}
+                className="cursor-default z-50 absolute flex flex-col justify-center items-center gap-2 shadow-md bg-purple-500 dark:bg-purple-600 rounded-b-md px-6 py-4 -bottom-[104px]"
+              >
+                <CopyToClipboard
+                  text={`https://getfb.vercel.app/embed/light/${router.query.siteId}`}
                 >
-                  Copied 👍
-                </motion.div>
-              )}
-            </button>
-          </CopyToClipboard>
+                  <button
+                    onClick={() => setCopied(true)}
+                    className="btn w-full bg-white hover:bg-neutral-200 text-black"
+                  >
+                    Light UI
+                  </button>
+                </CopyToClipboard>
+                <CopyToClipboard
+                  text={`https://getfb.vercel.app/embed/dark/${router.query.siteId}`}
+                >
+                  <button
+                    onClick={() => setCopied(true)}
+                    className="btn w-full bg-black hover:bg-neutral-800"
+                  >
+                    Dark UI
+                  </button>
+                </CopyToClipboard>
+              </motion.div>
+            )}
+          </button>
           <Link
             title="View raw feedback page"
             href={`/dashboard/raw/${router.query.siteId}`}
@@ -126,7 +151,7 @@ const ApprovedFeedbackTable = ({ feedback }) => {
                   id="feedbackInput"
                   autoComplete="off"
                   placeholder="Your Feedback..."
-                  className="flex-grow w-full py-1 px-2 bg-neutral-100 dark:bg-neutral-700 rounded-md min-h-[32px] resize-y max-h-40"
+                  className="flex-grow w-full py-1 px-2 bg-neutral-100 dark:bg-neutral-700 rounded-md min-h-[80px] resize-y max-h-40"
                 />
                 <div className="absolute -bottom-6 right-0">
                   {errors.feedbackContent &&
@@ -203,7 +228,10 @@ const ApprovedFeedbackTable = ({ feedback }) => {
                 </p>
               ))}
             {feedback?.map((feedback) => (
-              <div className="px-4 py-4 dark:even:bg-[#353535] even:bg-[#efefef]" key={feedback.id}>
+              <div
+                className="px-4 py-4 dark:even:bg-[#353535] even:bg-[#efefef]"
+                key={feedback.id}
+              >
                 <div className="flex justify-start gap-4 items-center">
                   <p className="font-semibold text-xl">{feedback.author}</p>
                   <div className="mt-1">

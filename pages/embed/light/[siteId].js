@@ -104,7 +104,7 @@ const SiteFeedback = ({ feedback }) => {
           title,
         }}
       />
-      <section className="bg-neutral-800 w-full h-fit p-4 mx-auto my-0 text-neutral-50">
+      <section className="bg-white w-full h-fit p-4 mx-auto my-0 text-neutral-700">
         {user ? (
           <form onSubmit={handleSubmit(handleFeedbackAdd)}>
             <div className="flex flex-col justify-center items-start">
@@ -120,7 +120,7 @@ const SiteFeedback = ({ feedback }) => {
                   id="feedbackInput"
                   autoComplete="off"
                   placeholder="Your Feedback..."
-                  className="flex-grow w-full py-1 px-2 bg-neutral-700 rounded-md min-h-[80px] resize-y max-h-40"
+                  className="flex-grow w-full py-1 px-2 bg-neutral-100 rounded-md min-h-[80px] resize-y max-h-40"
                 />
                 <div className="absolute -bottom-6 right-0">
                   {errors.feedbackContent &&
@@ -151,7 +151,7 @@ const SiteFeedback = ({ feedback }) => {
                 <Rating
                   initialValue={rating}
                   onClick={handleRating}
-                  emptyColor={"#525252"}
+                  emptyColor={"#e0e0e0"}
                   emptyStyle={{ display: "flex" }}
                   fillStyle={{ display: "-webkit-inline-box" }}
                   transition
@@ -172,7 +172,7 @@ const SiteFeedback = ({ feedback }) => {
               </div>
               <button
                 title="Send your feedback"
-                className="btn mb-4 px-8 bg-sky-600 hover:bg-sky-500"
+                className="btn mb-4 px-8 bg-sky-500 hover:bg-sky-400"
                 type="submit"
               >
                 Send
@@ -190,12 +190,12 @@ const SiteFeedback = ({ feedback }) => {
             )}
           </form>
         ) : (
-          <div className="flex flex-col gap-4 justify-center items-center px-5 py-4 bg-neutral-800 rounded-lg w-full">
+          <div className="flex flex-col gap-4 justify-center items-center px-5 py-4 bg-white rounded-lg w-full">
             <div className="flex flex-row justify-center items-center">
               <div className="w-[40px] mt-1">
                 <Image alt="Logo" src={logo} />
               </div>
-              <h1 className="text-neutral-200 flex tracking-tighter select-none justify-center items-center h-full px-4 font-bold text-4xl">
+              <h1 className="text-neutral-700 flex tracking-tighter select-none justify-center items-center h-full px-4 font-bold text-4xl">
                 Get Feedback
               </h1>
             </div>
@@ -203,14 +203,14 @@ const SiteFeedback = ({ feedback }) => {
               <div className="flex flex-col justify-center items-center gap-4">
                 <button
                   title="Sign in with Github"
-                  className="btn p-3 bg-black hover:bg-neutral-900 shadow-md"
+                  className="btn p-3 bg-black hover:bg-neutral-700 shadow-md"
                   onClick={() => signinWithGithub()}
                 >
                   <SiGithub title="Github" size={"25px"} /> Sign In With Github
                 </button>
                 <button
                   title="Sign in with Google"
-                  className="btn p-3 bg-white hover:bg-neutral-300 text-neutral-900 shadow-md"
+                  className="btn p-3 bg-neutral-100 hover:bg-neutral-200 text-neutral-900 shadow-md"
                   onClick={() => signinWithGoogle()}
                 >
                   <FcGoogle title="Google" size={"25px"} /> Sign In With Google
@@ -219,7 +219,7 @@ const SiteFeedback = ({ feedback }) => {
             </div>
           </div>
         )}
-        <section className="max-h-screen bg-neutral-700 rounded-lg overflow-x-hidden overflow-y-auto">
+        <section className="max-h-screen bg-neutral-100 rounded-lg overflow-x-hidden overflow-y-auto">
           {!feedback ||
             (feedback.length === 0 && (
               <p className="w-full text-center py-4 text-lg font-semibold">
@@ -227,7 +227,7 @@ const SiteFeedback = ({ feedback }) => {
               </p>
             ))}
           {feedback?.map((feedback) => (
-            <div className="px-4 py-4 even:bg-[#353535]" key={feedback.id}>
+            <div className="px-4 py-4 even:bg-[#efefef]" key={feedback.id}>
               <div className="flex justify-start gap-4 items-center">
                 <p className="font-semibold text-xl">{feedback.author}</p>
                 <div className="mt-1">
@@ -247,7 +247,7 @@ const SiteFeedback = ({ feedback }) => {
               <div className="flex justify-start items-center">
                 {feedback.rating !== 0 ? (
                   <Rating
-                    emptyColor={"#525252"}
+                    emptyColor={"#e0e0e0"}
                     emptyStyle={{ display: "flex" }}
                     fillStyle={{ display: "-webkit-inline-box" }}
                     initialValue={feedback.rating}
@@ -258,7 +258,7 @@ const SiteFeedback = ({ feedback }) => {
                   <span />
                 )}
               </div>
-              <p className="text-neutral-50 font-medium p-2 mt-2 text-md bg-neutral-800 rounded-lg">
+              <p className="text-neutral-900 font-medium p-2 mt-2 text-md bg-white rounded-lg">
                 {feedback.text}
               </p>
             </div>
