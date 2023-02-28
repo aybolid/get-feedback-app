@@ -18,7 +18,7 @@ const FeedbackCard = ({
       <p className="font-thin text-sm">
         {format(parseISO(feedback.createdAt), "PPpp")}
       </p>
-      <div className="bg-sky-100 dark:bg-neutral-500 px-2 rounded-md flex-grow w-full my-2 overflow-x-hidden overflow-y-auto">
+      <div className="bg-sky-50 dark:bg-neutral-500 px-2 rounded-md flex-grow w-full my-2 overflow-x-hidden overflow-y-auto">
         <p className="font-semibold text-lg my-4">{feedback.text}</p>
       </div>
       <div className="flex justify-between items-center w-full">
