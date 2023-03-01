@@ -43,11 +43,13 @@ const DashboardShell = ({ children }) => {
           </li>
           <li>
             <Link
-              title="View docs"
-              className="hover:text-neutral-900 hover:bg-sky-200 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600"
-              href="/dashboard/sites"
+              title="How to use?"
+              className={`${
+                router.pathname === "/how" && "dark:bg-neutral-700 bg-sky-100"
+              } hover:text-neutral-900 hover:bg-sky-200 rounded-xl p-2 dark:hover:text-neutral-50 dark:hover:bg-neutral-600`}
+              href="/how"
             >
-              Use Feedback
+              How to use?
             </Link>
           </li>
         </ul>
