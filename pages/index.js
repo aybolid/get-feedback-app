@@ -5,9 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "../public/logo.svg";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
 
 const Auth = () => {
+  const { theme } = useTheme();
   const {
     authError,
     signinWithRedirectGithub,
@@ -15,7 +16,18 @@ const Auth = () => {
     signout,
     user,
   } = useAuth();
-  const router = useRouter();
+
+  const handleGithubSignIn = () => {
+    signinWithRedirectGithub();
+  };
+
+  const handleGoogleSignIn = () => {
+    signinWithRedirectGoogle();
+  };
+
+  const handleSignOut = () => {
+    signout();
+  };
 
   return (
     <>
@@ -35,16 +47,14 @@ const Auth = () => {
                 <button
                   title="Sign in with Github"
                   className="btn p-3 bg-black dark:hover:bg-neutral-900 hover:bg-neutral-700 shadow-md"
-                  onClick={() => {
-                    signinWithRedirectGithub();
-                  }}
+                  onClick={handleGithubSignIn}
                 >
                   <SiGithub title="Github" size={"25px"} /> Sign In With Github
                 </button>
                 <button
                   title="Sign in with Google"
                   className="btn p-3 bg-neutral-100 dark:bg-white dark:hover:bg-neutral-300 hover:bg-neutral-200 text-neutral-900 shadow-md"
-                  onClick={() => signinWithRedirectGoogle()}
+                  onClick={handleGoogleSignIn}
                 >
                   <FcGoogle title="Google" size={"25px"} /> Sign In With Google
                 </button>
@@ -54,7 +64,7 @@ const Auth = () => {
                 <button
                   title="Sign out"
                   className="btn danger"
-                  onClick={() => signout()}
+                  onClick={handleSignOut}
                 >
                   Sign Out
                 </button>
