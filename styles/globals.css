@@ -28,7 +28,3 @@
     @apply text-neutral-200 dark:bg-neutral-700 bg-sky-300;
   }
 }
-
-body {
-  min-width: 1251px;
-}
