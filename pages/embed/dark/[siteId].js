@@ -265,10 +265,6 @@ const SiteFeedback = ({ feedback }) => {
           ))}
         </section>
       </section>
-      <script
-        src="https://raw.githubusercontent.com/davidjbradshaw/iframe-resizer/master/js/iframeResizer.contentWindow.min.js"
-        defer
-      />
     </>
   );
 };
