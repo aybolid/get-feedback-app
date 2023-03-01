@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { NextSeo } from "next-seo";
 import React from "react";
 
-const title = "Raw Feedback - Get Feedback";
+const title = "How to use? - Get Feedback";
 const url = "https://getfb.vercel.app/how";
 
 const HowToUse = () => {
